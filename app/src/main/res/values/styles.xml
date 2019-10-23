@@ -1,0 +1,48 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/verdeClaro</item>
+        <item name="colorPrimaryDark">@color/verdeMedio</item>
+        <item name="colorAccent">@color/marron</item>
+        <item name="android:textColor">@color/marronEscuro</item>
+    </style>
+
+    <style name="botoes" parent="Widget.AppCompat.ActionButton">>
+        <item name="android:background">@drawable/bg_botao</item>
+        <item name="android:textColor">@color/marronEscuro</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">bold</item>
+
+
+    </style>
+
+    <style name="formularios" parent="Widget.AppCompat.EditText">>
+
+        <item name="android:textColor">@color/marronEscuro</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColorHint">@color/marron</item>
+
+
+    </style>
+
+    <style name="adapter" parent="Widget.AppCompat.TextView">>
+
+        <item name="android:textColor">@color/marronEscuro</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColorHint">@color/marron</item>
+
+
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>

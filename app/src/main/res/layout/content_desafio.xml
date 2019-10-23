@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activity.DesafioActivity"
+    tools:showIn="@layout/activity_desafio">
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.MapsActivity" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutControle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="2dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_linear_layout"
+        android:foregroundGravity="bottom"
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/textViewDescricaoInsersao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/aba_inserir_descoberta" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutDescoberta"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <EditText
+                android:id="@+id/editTextInserirDescobertaNome"
+                style="@style/formularios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/inserir_descoberta_nome"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/editTextInserirDescobertaDescricao"
+                style="@style/formularios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/inserir_descoberta_descricao"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/editTextInserirDescobertaPontuacao"
+                style="@style/formularios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/inserir_descoberta_pontuacao"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/editTextInserirDescobertaVisibilidades"
+                style="@style/formularios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/inserir_descoberta_visibilidade"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/buttonConcluirDescoberta"
+                style="@style/botoes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/concluir_descoberta" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonInserirDescoberta"
+            style="@style/botoes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:text="@string/botao_inserir_descoberta" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutDesafio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editTextDesafioTitulo"
+                style="@style/formularios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/desafio_titulo"
+                android:inputType="none|text" />
+
+            <EditText
+                android:id="@+id/editTextDesafioDescricao"
+                style="@style/formularios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/inserir_descoberta_descricao"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/editTextDesafioPontuacao"
+                style="@style/formularios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/inserir_descoberta_pontuacao"
+
+                android:inputType="none|number" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonComecarParar"
+            style="@style/botoes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:text="@string/botao_inserir_desafio_comecar_parar" />
+
+        <Button
+            android:id="@+id/buttonFinalizarDesafio"
+            style="@style/botoes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/botao_finalizar_desafio" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--<color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>-->
+
+    <color name="colorPrimary">@color/verdeMedio</color>
+    <color name="colorPrimaryDark">@color/verdeEscuro</color>
+    <color name="colorAccent">@color/marron</color>
+
+    --<color name= "cor1"> #FF8F00</color>
+    <color name= "cor2"> #659BC6</color>
+    <color name= "cor3"> #8DF989</color>
+    <color name= "cor4"> #E88D96</color>
+    <color name= "cor5"> #AD93D8</color>
+
+
+
+    <!--logo4 -->
+    <color name="marronEscuro">#4C2B00</color>
+    <color name="marron">#D19B26</color>
+    <color name="azul">#8dcaff</color>
+    <color name="verdeEscuro">#265d0c</color>
+    <color name="verdeMedio">#3e8022</color>
+    <color name="verdeClaro">#419a1c</color>
+
+
+
+</resources>

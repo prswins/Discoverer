@@ -1,0 +1,100 @@
+<resources>
+    <string name="app_name">Discoverer</string>
+    <string name="tela_login">Login</string>
+    <string name="login_email">E-mail</string>
+    <string name="login_senha">Senha</string>
+    <string name="cadastro_nome">Nome completo</string>
+    <string name="cadastro_endereco">Endereco </string>
+    <!--<string name=""></string>-->
+    <string name="tela_login_entrar"> Entrar</string>
+    <string name="tela_login_cadastrar">Cadastrar</string>
+    <string name="tela_text_cadastrar">Registrar-se? Clique aqui</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="title_activity_jogador">JogadorActivity</string>
+    <string name="title_activity_perfil">Perfil</string>
+    <string name="botao_alterarfoto_perfil">Alterar foto</string>
+    <string name="perfil_pontuacao">Pontuações</string>
+    <string name="perfil_km_percorridos">Distância percorrida total</string>
+    <string name="perfil_descobertas">Total de descobertas</string>
+    <string name="botao_inserir_desafio">Inserir Desafio</string>
+    <string name="linguagem_portugues">Portugues</string>
+    <string name="linguagem_ingles">Ingles</string>
+    <string name="title_activity_desafio">DesafioActivity</string>
+    <string name="aba_inserir_descoberta">Inserir ponto de descoberta</string>
+    <string name="inserir_descoberta_nome">Nome do local</string>
+    <string name="inserir_descoberta_descricao">Descricao</string>
+    <string name="inserir_descoberta_visibilidade">Visibilidade</string>
+    <string name="inserir_descoberta_pontuacao">Pontos</string>
+    <string name="botao_inserir_descoberta">Inserir Descoberta</string>
+    <string name="botao_inserir_desafio_comecar_parar">Iniciar</string>
+    <string name="concluir_descoberta">Concluir</string>
+    <string name="botao_finalizar_desafio">Finalizar</string>
+
+    <string name="inserir_desafio_info_inicial">Crie o seu Proprio desafio</string>
+    <string name="inserir_descoberta_info_inicial">Adicione pontos para descoberta</string>
+    <string name="inserir_descoberta_dados">Complete as informacoes sobre a descoberta</string>
+    <string name="desafio_titulo">Titulo</string>
+    <string name="lista_desafio_vazia">Nao ha desafios</string>
+    <string name="titulo_layout_desafios">Lista de desafios</string>
+
+    <string name="alert_desafio_concluido_titulo">Desafio registrado</string>
+    <string name="alert_desafio_concluido_mensagem">Desafio Registrado, deseja disponibiliza-lo ?</string>
+    <string name="alert_desafio_concluido_botao_confirmar">Aceito</string>
+
+    <string name="alert_desafio_campoTITULO_titulo">Título Inválido</string>
+    <string name="alert_desafio_campoTITULO_mensagem">É obrigatório a definição de um título ao seu desafio.</string>
+    <string name="alert_desafio_campoTITULO_botao_confirmar">Entendido</string>
+
+    <string name="alert_desafio_campoDescricao_titulo">Descrição Inválida</string>
+    <string name="alert_desafio_campoDescricao_mensagem">É obrigatório a definição de uma descrição ao seu desafio.</string>
+    <string name="alert_desafio_campoDescricao_botao_confirmar">Entendido</string>
+
+    <string name="alert_desafio_campoPontuacao_titulo">Definir a pontuação</string>
+    <string name="alert_desafio_campoPontuacao_mensagem">É obrigatório a definição de uma pontuação ao seu desafio.</string>
+    <string name="alert_desafio_ccampoPontuacao_botao_confirmar">Entendido</string>
+
+
+    <string name="alert_descoberta_campoTITULO_titulo">Título Inválido</string>
+    <string name="alert_descoberta_campoTITULO_mensagem">É obrigatório a definição de um título ao seu ponto de descoberta.</string>
+    <string name="alert_descoberta_campoTITULO_botao_confirmar">Entendido</string>
+
+    <string name="alert_descoberta_campoPontuacao_titulo">Descrição Inválida</string>
+    <string name="alert_descoberta_campoPontuacao_mensagem">É obrigatório a definição de uma pontuação ao seu ponto de descoberta.</string>
+    <string name="alert_descoberta_campoPontuacao_botao_confirmar">Entendido</string>
+
+    <string name="alert_descoberta_campoDescricao_titulo">Descrição Inválida</string>
+    <string name="alert_descoberta_campoDescricao_mensagem">É obrigatório a definição de uma descrição ao seu ponto de descoberta.</string>
+    <string name="alert_descoberta_campoDescricao_botao_confirmar">Entendido</string>
+
+    <string name="alert_descoberta_campoVisibilidade_titulo">Definir a Visibilidade</string>
+    <string name="alert_descoberta_campoVisibilidade_mensagem">A visibilidade é utilizada para definir o nível de facilidade para encontrar um ponto de descoberta no mapa.\n Sendo assim, é obrigatório a definição de uma pontuação ao seu desafio.</string>
+    <string name="alert_descoberta_campoVisibilidade_botao_confirmar">Entendido</string>
+
+
+    <string name="main_saudacao">Bem vindo novamente, </string>
+    <string name="main_descricao_sessao_logado">Sempre temos novas atividades a você, continue a aumentar seus pontos.\n\nAqui estão alguns desafios, Bom passeio e divirta-se"
+</string>
+    <string name="main_descricao_app_logado">O Discovery sentiu sua falta !\n Ficamos felizes com o seu retorno</string>
+
+
+    <string name="main_saudacao_visitante">Olá Visitante, seja bem vindo !</string>
+
+
+    <string name="main_titulo_sessao">Desafios</string>
+    <string name="main_descricao_sessao">Fornecemos algumas atividades como desafio para voce cumprir e superar outros usuarios, ao mesmo tempo conhecer os melhores pontos turísticos da região.\nCada atividade completada gera pontos para que possa melhorar sua classificacão no ranking \n\nAqui estão alguns desafios, Bom passeio e divirta-se"
+</string>
+
+
+    <string name="main_descricao_app">"O discoverer é um aplicativo que tem por objetivo estimular o turismo em conjunto com práticas de atividades físicas."</string>
+
+
+    <string name="main_unidade_medida_pontuacao_singular">Ponto</string>
+    <string name="main_unidade_medida_pontuacao_plural">Pontos</string>
+    <string name="title_activity_ranking">RankingActivity</string>
+    <string name="ranking_indiponivel">Ranking Indisponível no Momento</string>
+    <string name="tela_ranking_descricao_ranking">O ranking é uma lista onde estão classificados nosso melhores usuarios.\n Sendo utilizado como critério de avaliação os pontos acumulados de todos os desafios completados.\nVamos la ...\n Não fique atras nessa corrida !!! </string>
+    <string name="title_activity_atividade">AtividadeActivity</string>
+    <string name="title_activity_maps">Map</string>
+
+
+</resources>

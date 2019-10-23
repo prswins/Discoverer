@@ -48,3 +48,10 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.ar.sceneform.plugin'
+
+
+sceneform.asset('sampledata/bear.fbx',
+        'default',
+        'sampledata/bear.sfa',
+        'src/main/res/raw/bear')

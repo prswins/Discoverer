@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity{
                 auth = true;
                 String nomeUsuario = dados.getString("usuarioNome");
                 Log.d("intent", " onCreate"+nomeUsuario);
-                 usuarioLocal.setNome(nomeUsuario);
+                usuarioLocal.setNome(nomeUsuario);
             }
 
 
@@ -295,17 +295,17 @@ public class MainActivity extends AppCompatActivity{
         Frame frame = arFragment.getArSceneView().getArFrame();
 
         Collection<Plane> planes = frame.getUpdatedTrackables(Plane.class);
-            for (Plane plane: planes){
-                if(plane.getTrackingState() == TrackingState.TRACKING){
+        for (Plane plane: planes){
+            if(plane.getTrackingState() == TrackingState.TRACKING){
 
-                    Anchor anchor = plane.createAnchor(plane.getCenterPose());
+                Anchor anchor = plane.createAnchor(plane.getCenterPose());
 
-                    makeBear(anchor);
+                makeBear(anchor);
 
 
-                    break;
-                }
+                break;
             }
+        }
     }
 
     private void makeBear(Anchor anchor){
@@ -327,9 +327,9 @@ public class MainActivity extends AppCompatActivity{
 
 
         AnchorNode anchorNode = new AnchorNode(anchor);
-     //   TransformableNode transformableNode = new TransformableNode(arFragment.getTransformationSystem());
-     //   transformableNode.setParent(anchorNode);
-     //   transformableNode.setRenderable(modelRenderable);
+        //   TransformableNode transformableNode = new TransformableNode(arFragment.getTransformationSystem());
+        //   transformableNode.setParent(anchorNode);
+        //   transformableNode.setRenderable(modelRenderable);
         anchorNode.setRenderable(modelRenderable);
         anchorNode.setOnTapListener(new Node.OnTapListener() {
             @Override
@@ -350,7 +350,7 @@ public class MainActivity extends AppCompatActivity{
         });
         arFragment.getArSceneView().getScene().addChild(anchorNode);
 
-      //  transformableNode.select();
+        //  transformableNode.select();
 
     }
 

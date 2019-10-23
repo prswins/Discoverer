@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    >
+
+    <item
+        android:id="@+id/menuPerfil"
+        android:enabled="true"
+        android:icon="@drawable/ic_person_brown_24dp"
+        android:orderInCategory="100"
+        android:title="Perfil"
+        android:visible="true"
+        app:showAsAction="always|withText"></item>
+
+    <item
+        android:id="@+id/menuRanking"
+        android:enabled="true"
+        android:icon="@drawable/hikking"
+        android:orderInCategory="100"
+        android:title="Ranking"
+        android:visible="true"
+        app:showAsAction="never"></item>
+
+
+    <item
+        android:id="@+id/menuSair"
+        android:orderInCategory="100"
+        android:title="Sair"
+        app:showAsAction="never"></item>
+
+
+</menu>

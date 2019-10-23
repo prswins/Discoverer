@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.discoverer">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -17,6 +16,7 @@
     <uses-feature
         android:name="android.hardware.camera.ar"
         android:required="true" />
+    <uses-sdk android:minSdkVersion="24" />
 
     <application
         android:allowBackup="true"
@@ -25,7 +25,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity
+            android:name=".activity.JogadorActivity"
+            android:label="@string/title_activity_jogador"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -39,16 +42,18 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:name=".activity.MapsActivity"
+            android:label="@string/title_activity_maps" />
         <activity
             android:name=".activity.RankingActivity"
             android:label="@string/title_activity_ranking"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.AtividadeActivity"
             android:label="@string/title_activity_atividade"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activity.MainActivity" />
 
         <meta-data
             android:name="com.google.ar.core"
@@ -57,15 +62,13 @@
         <activity
             android:name=".activity.DesafioActivity"
             android:label="@string/title_activity_desafio"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.PerfilActivity"
             android:label="@string/title_activity_perfil"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.JogadorActivity"
-            android:label="@string/title_activity_jogador"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/tela_login"

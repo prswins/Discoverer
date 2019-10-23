@@ -27,7 +27,7 @@
 
     </style>
 
-    <style name="adapter" parent="Widget.AppCompat.TextView">>
+    <style name="adapter" parent="Widget.AppCompat.EditText">>
 
         <item name="android:textColor">@color/marronEscuro</item>
         <item name="android:textSize">14dp</item>

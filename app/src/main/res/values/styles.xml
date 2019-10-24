@@ -15,8 +15,13 @@
         <item name="android:textSize">18dp</item>
         <item name="android:textStyle">bold</item>
 
-
     </style>
+
+    <style name="botoes2" parent="Widget.AppCompat.Button">>
+    <item name="android:background">@drawable/bg_botao</item>
+    <item name="android:textColor">@color/marronEscuro</item>
+    <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">bold</item></style>
 
     <style name="formularios" parent="Widget.AppCompat.EditText">>
 

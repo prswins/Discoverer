@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -121,6 +122,7 @@ public class MainActivity extends AppCompatActivity{
                     for(DataSnapshot ds : dataSnapshot.getChildren()){
 
                         Desafio desafio = new Desafio();
+                        desafio.setId((String) ds.child("id").getValue());
                         desafio.setTitulo((String) ds.child("titulo").getValue());
                         desafio.setDescricao((String) ds.child("descricao").getValue());
                         String sDistancia = String.valueOf(ds.child("distancia").getValue());
@@ -267,9 +269,18 @@ public class MainActivity extends AppCompatActivity{
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Desafio desafio = listaDesafio.get(position);
+                                Desafio desafio = (Desafio) listaDesafio.get(position);
                                 Toast.makeText(getApplicationContext(),"Carregando desafio "+ desafio.getTitulo(), Toast.LENGTH_LONG).show();
-                                Log.d("onItemClick: ", "onItemClick: "+listaDesafio.get(position).toString());
+                                Log.d("onItemClick: ", "onItemClick: "+listaDesafio.get(position).getTitulo());
+
+
+                                Intent i  = new Intent(getApplicationContext(), AtividadeActivity.class);
+                                //Bundle extras = new Bundle();
+                               // extras.putSerializable("desafio", desafio);
+                              //  i.putExtras(extras);
+                                Log.d("main activity", "onItemClick: "+listaDesafio.get(position).getId());
+                                i.putExtra("desafio", desafio.getId());
+                                startActivity(i);
 
                             }
 
@@ -310,16 +321,18 @@ public class MainActivity extends AppCompatActivity{
 
     private void makeBear(Anchor anchor){
         isModelPlaced = true;
-        ModelRenderable.builder()
-                .setSource(getApplicationContext(), R.raw.bear)
-                .build()
-                .thenAccept(renderable -> adicionarModelo3d(anchor, renderable))
-                .exceptionally(
-                        throwable -> {
-                            Toast.makeText(getApplicationContext(),"errro ao exibir objeto",Toast.LENGTH_LONG).show();
-                            Log.e("RENDERABLEOBJETO", "Unable to load Renderable.", throwable);
-                            return null;
-                        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            ModelRenderable.builder()
+                    .setSource(getApplicationContext(), R.raw.bear)
+                    .build()
+                    .thenAccept(renderable -> adicionarModelo3d(anchor, renderable))
+                    .exceptionally(
+                            throwable -> {
+                                Toast.makeText(getApplicationContext(),"errro ao exibir objeto",Toast.LENGTH_LONG).show();
+                                Log.e("RENDERABLEOBJETO", "Unable to load Renderable.", throwable);
+                                return null;
+                            });
+        }
     }
 
 
@@ -327,30 +340,16 @@ public class MainActivity extends AppCompatActivity{
 
 
         AnchorNode anchorNode = new AnchorNode(anchor);
-        //   TransformableNode transformableNode = new TransformableNode(arFragment.getTransformationSystem());
-        //   transformableNode.setParent(anchorNode);
-        //   transformableNode.setRenderable(modelRenderable);
         anchorNode.setRenderable(modelRenderable);
         anchorNode.setOnTapListener(new Node.OnTapListener() {
             @Override
             public void onTap(HitTestResult hitTestResult, MotionEvent motionEvent) {
                 Toast.makeText(arFragment.getContext(),"Ola !!!",Toast.LENGTH_LONG).show();
 
-                /*AlertDialog.Builder alert = new AlertDialog.Builder(getApplicationContext());
-                alert.setTitle(R.string.main_saudacao);
-                alert.setMessage(R.string.main_descricao_app);
-                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                alert.show();*/
             }
         });
         arFragment.getArSceneView().getScene().addChild(anchorNode);
 
-        //  transformableNode.select();
 
     }
 

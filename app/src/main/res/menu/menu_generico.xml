@@ -9,7 +9,7 @@
         android:enabled="true"
         android:icon="@drawable/ic_person_brown_24dp"
         android:orderInCategory="100"
-        android:title="Perfil"
+        android:title="@string/menu_perfil"
         android:visible="true"
         app:showAsAction="always|withText"></item>
 
@@ -18,15 +18,18 @@
         android:enabled="true"
         android:icon="@drawable/hikking"
         android:orderInCategory="100"
-        android:title="Ranking"
+        android:title="@string/menu_ranking"
         android:visible="true"
+        app:showAsAction="never"></item>
+    <item android:id="@+id/menuLinguagem"
+        android:title="@string/menu_ling"
         app:showAsAction="never"></item>
 
 
     <item
         android:id="@+id/menuSair"
         android:orderInCategory="100"
-        android:title="Sair"
+        android:title="@string/menu_sair"
         app:showAsAction="never"></item>
 
 

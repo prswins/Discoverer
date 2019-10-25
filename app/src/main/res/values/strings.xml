@@ -32,9 +32,9 @@
 
     <string name="inserir_desafio_info_inicial">Crie o seu Proprio desafio</string>
     <string name="inserir_descoberta_info_inicial">Adicione pontos para descoberta</string>
-    <string name="inserir_descoberta_dados">Complete as informacoes sobre a descoberta</string>
+    <string name="inserir_descoberta_dados">Complete às informações sobre a descoberta</string>
     <string name="desafio_titulo">Titulo</string>
-    <string name="lista_desafio_vazia">Nao ha desafios</string>
+    <string name="lista_desafio_vazia">Não há desafios</string>
     <string name="titulo_layout_desafios">Lista de desafios</string>
 
     <string name="alert_desafio_concluido_titulo">Desafio registrado</string>
@@ -55,7 +55,6 @@
 
 
     <string name="alert_descoberta_campoTITULO_titulo">Título Inválido</string>
-    <string name="alert_descoberta_campoTITULO_mensagem">É obrigatório a definição de um título ao seu ponto de descoberta.</string>
     <string name="alert_descoberta_campoTITULO_botao_confirmar">Entendido</string>
 
     <string name="alert_descoberta_campoPontuacao_titulo">Descrição Inválida</string>
@@ -67,14 +66,14 @@
     <string name="alert_descoberta_campoDescricao_botao_confirmar">Entendido</string>
 
     <string name="alert_descoberta_campoVisibilidade_titulo">Definir a Visibilidade</string>
-    <string name="alert_descoberta_campoVisibilidade_mensagem">A visibilidade é utilizada para definir o nível de facilidade para encontrar um ponto de descoberta no mapa.\n Sendo assim, é obrigatório a definição de uma pontuação ao seu desafio.</string>
+    <string name="alert_descoberta_campoVisibilidade_mensagem">A visibilidade é utilizada para definir o nível de facilidade para encontrar um ponto de descoberta no mapa.\\nSendo assim, é obrigatório a definição de uma pontuação ao seu desafio.</string>
     <string name="alert_descoberta_campoVisibilidade_botao_confirmar">Entendido</string>
 
 
     <string name="main_saudacao">Bem vindo novamente, </string>
     <string name="main_descricao_sessao_logado">Sempre temos novas atividades a você, continue a aumentar seus pontos.\n\nAqui estão alguns desafios, Bom passeio e divirta-se"
 </string>
-    <string name="main_descricao_app_logado">O Discovery sentiu sua falta !\n Ficamos felizes com o seu retorno</string>
+    <string name="main_descricao_app_logado">O Discovery sentiu sua falta !  Ficamos felizes com o seu retorno</string>
 
 
     <string name="main_saudacao_visitante">Olá Visitante, seja bem vindo !</string>
@@ -102,11 +101,17 @@
     <string name="botao_iniciar_pausado">Parar</string>
     <string name="botao_iniciar_iniciar">Iniciar</string>
     <string name="botao_finalizar">Finalizar</string>
+    <string name="text_tempo">"Tempo: "</string>
+    <string name="text_pontos">Pontos: </string>
 
 
-
-
-
+    <string name="menu_login">Login </string>
+    <string name="menu_ling">Mudar para Ingles</string>
+    <string name="menu_sair">Sair</string>
+    <string name="menu_perfil">Perfil</string>
+    <string name="menu_ranking">Ranking</string>
+    <!--<string name="alert_descoberta_campoVisibilidade_mensagem">A visibilidade é utilizada para definir o nível de facilidade para encontrar um ponto de descoberta no mapa.\\nSendo assim, é obrigatório a definição de uma pontuação ao seu desafio.</string><!-->
+    <string name="alert_descoberta_campoTITULO_mensagem">É obrigatório a definição de um título ao seu ponto de descoberta.</string>
 
 
 </resources>

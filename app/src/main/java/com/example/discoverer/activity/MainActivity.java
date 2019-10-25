@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.discoverer.R;
 import com.example.discoverer.RecyclerItemClickListener;
 import com.example.discoverer.adapter.DesafioAdapterMain;
+import com.example.discoverer.helper.LinguagemHelper;
 import com.example.discoverer.helper.Permissoes;
 import com.example.discoverer.model.Desafio;
 import com.example.discoverer.model.Ponto;
@@ -279,6 +280,7 @@ public class MainActivity extends AppCompatActivity{
                                // extras.putSerializable("desafio", desafio);
                               //  i.putExtras(extras);
                                 Log.d("main activity", "onItemClick: "+listaDesafio.get(position).getId());
+                                i.putExtra("nomeDesafio", desafio.getTitulo());
                                 i.putExtra("desafio", desafio.getId());
                                 startActivity(i);
 
@@ -431,6 +433,11 @@ public class MainActivity extends AppCompatActivity{
                 Intent i3 = new Intent(this, RankingActivity.class);
                 startActivity(i3);
                 finish();
+                break;
+
+            case R.id.menuLinguagem:
+
+                LinguagemHelper.trocarLinguagem(getResources(),"PT");
                 break;
         }
 

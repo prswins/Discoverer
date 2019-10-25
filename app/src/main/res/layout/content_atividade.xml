@@ -35,19 +35,28 @@
             android:gravity="center"
             android:text="TextView" />
 
-        <TextView
-            android:id="@+id/textViewTempo"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="TextView" />
+            android:orientation="horizontal">
 
-        <Chronometer
-            android:id="@+id/chonometro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            <TextView
+                android:id="@+id/textViewTempo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center|end"
+                android:text="TextView" />
+
+            <Chronometer
+                android:id="@+id/chonometro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center|start" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout

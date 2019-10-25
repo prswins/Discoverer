@@ -82,6 +82,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     private boolean atividadeRodando = false;
     private long milesegundosPausado;
     private long tempoTotal;
+    private String titulo;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -96,7 +97,15 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
         buttonIniciar = findViewById(R.id.buttonIniciar);
         buttonIniciar.setText(R.string.botao_iniciar_iniciar);
         buttonFinalizar = findViewById(R.id.buttonFinalizar);
+        buttonFinalizar.setBackgroundColor(getResources().getColor(R.color.marronEscuro));
+        buttonFinalizar.setTextColor(getResources().getColor(R.color.marron));
         buttonFinalizar.setVisibility(View.GONE);
+        pontuacao = findViewById(R.id.textViewPontuacao);
+        pontuacao.setText(R.string.text_tempo+"99999");
+        tempo = findViewById(R.id.textViewTempo);
+        tempo.setText(R.string.text_tempo);
+
+
 
         cronometro = (Chronometer) findViewById(R.id.chonometro);
         buttonIniciar.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +141,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     private Desafio recuperarDesafio() {
         final Desafio[] novo = {new Desafio()};
         String idDesafio = (String) this.getIntent().getStringExtra("desafio");
+        setTitle("Desafio: "+ (String) this.getIntent().getStringExtra("nomeDesafio"));
         Log.d("string intent", "recuperarDesafio: "+idDesafio);
         if (idDesafio != null ){
             DatabaseReference desafio = FirebaseDatabase.getInstance().getReference().child("desafios").child(idDesafio);
@@ -146,6 +156,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                                 desafioAtual.setId((String) ds.child("id").getValue());
                                 desafioAtual.setTitulo((String) ds.child("titulo").getValue());
                                 desafioAtual.setDescricao((String) ds.child("descricao").getValue());
+
                                 /*String sDistancia = String.valueOf(ds.child("distancia").getValue());
                                 double dDistancia = Double.valueOf(sDistancia);
                                desafioAtual.setDistancia(dDistancia);
@@ -301,16 +312,6 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
 
     public void inicializarComponentes() {
         status_atual = ATIVIDADE_AGUARDANDO_INICIO;
-
-       // buttonIniciar = findViewById(R.id.buttonIniciar);
-       /* buttonIniciar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Iniciando atividade", Snackbar.LENGTH_LONG).show();
-
-                iniciarAtividade();
-            }
-        });*/
     }
 
     @Override

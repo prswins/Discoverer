@@ -2,7 +2,6 @@ package com.example.discoverer.activity;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -10,10 +9,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +37,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.ar.core.Anchor;
 import com.google.ar.core.Frame;
 import com.google.ar.core.Plane;
@@ -78,6 +78,10 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     private Boolean isModelPlaced = false;
     private FirebaseAuth autenticacao;
     private DatabaseReference firebaseRef;
+    private Chronometer cronometro;
+    private boolean atividadeRodando = false;
+    private long milesegundosPausado;
+    private long tempoTotal;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -93,9 +97,25 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
         buttonIniciar.setText(R.string.botao_iniciar_iniciar);
         buttonFinalizar = findViewById(R.id.buttonFinalizar);
         buttonFinalizar.setVisibility(View.GONE);
-       // buttonAr.findViewById(R.id.buttonAR);
-       // buttonFinalizar.findViewById(R.id.buttonFinalizar);
-       // buttonFinalizar.setVisibility(View.GONE);
+
+        cronometro = (Chronometer) findViewById(R.id.chonometro);
+        buttonIniciar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!atividadeRodando) {
+                    iniciarAtividade();
+                } else {
+                    pararAtividade();
+                }
+            }
+        });
+        buttonFinalizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finalizarAtividade();
+            }
+        });
+
 
 
         inicializarComponentes();
@@ -126,9 +146,9 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                                 desafioAtual.setId((String) ds.child("id").getValue());
                                 desafioAtual.setTitulo((String) ds.child("titulo").getValue());
                                 desafioAtual.setDescricao((String) ds.child("descricao").getValue());
-                               // String sDistancia = String.valueOf(ds.child("distancia").getValue());
-                               // double dDistancia = Double.valueOf(sDistancia);
-                               // desafioAtual.setDistancia(dDistancia);
+                                /*String sDistancia = String.valueOf(ds.child("distancia").getValue());
+                                double dDistancia = Double.valueOf(sDistancia);
+                               desafioAtual.setDistancia(dDistancia);
                                 desafioAtual.setPontuacao(Integer.parseInt(ds.child("pontuacao").getValue().toString()));
 
                                 desafioAtual.setLocalizacaoInicial(
@@ -183,17 +203,11 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                                     );
                                     caminho.add(local);
                                 }
-                                desafioAtual.setCaminho(caminho);
+                                desafioAtual.setCaminho(caminho);*/
 
                                 Log.d("desafio1", "onDataChange: desafios: "+desafioAtual.getTitulo());
 
                             }
-
-
-
-                        }else{
-                            //textDesafios.setVisibility(View.VISIBLE);
-                            //recyclerDesafios.setVisibility(View.GONE);
                         }
                     }
 
@@ -203,13 +217,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                     }
                 });
             }
-
-
-
         }
-
-
-
         return novo[0];
     }
 
@@ -254,15 +262,40 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
         status_atual = ATIVIDADE_INICIADA;
         buttonFinalizar.setVisibility(View.VISIBLE);
         buttonIniciar.setText(R.string.botao_iniciar_pausado);
+        buttonFinalizar.setVisibility(View.GONE);
+        startCronometro();
     }
+
+
 
     public void pararAtividade() {
         status_atual = ATIVIDADE_PARADA;
         buttonIniciar.setText(R.string.botao_iniciar_iniciar);
+        buttonFinalizar.setText(R.string.botao_finalizar);
+        buttonFinalizar.setVisibility(View.VISIBLE);
+        pausarCronometro();
+    }
+    private void startCronometro() {
+        if(!atividadeRodando) {
+            cronometro.setBase(SystemClock.elapsedRealtime() - milesegundosPausado);
+            cronometro.start();
+            atividadeRodando = true;
+        }
+    }
+    private void pausarCronometro() {
+        if(atividadeRodando){
+            cronometro.stop();
+            tempoTotal = SystemClock.elapsedRealtime() - (cronometro.getBase());
+            milesegundosPausado = SystemClock.elapsedRealtime() - cronometro.getBase();
+            atividadeRodando = false;
+        }
     }
 
     public void finalizarAtividade() {
+
         status_atual = ATIVIDADE_FINALIZANDO;
+        Toast.makeText(getApplicationContext(), " tempo total: "+(tempoTotal/1000) ,Toast.LENGTH_LONG).show();
+        buttonFinalizar.setVisibility(View.GONE);
     }
 
 

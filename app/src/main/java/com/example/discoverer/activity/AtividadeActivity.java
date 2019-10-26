@@ -87,6 +87,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     private long milesegundosPausado;
     private long tempoTotal;
     private String titulo;
+    private Object desafio;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -132,13 +133,15 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
 
 
         inicializarComponentes();
-       // recuperarDesafio();
-       recuperarLocalizacaoUsuario();
+        // recuperarDesafio();
+        recuperarLocalizacaoUsuario();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.atividadeFragmentAR);
-         arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdate);
+        arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.atividadeFragmentAR);
+        arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdate);
         recuperarDesafio();
+
+
 
     }
 
@@ -153,77 +156,101 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                 desafio.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.getChildrenCount() > 0 ){
 
-                            for(DataSnapshot ds : dataSnapshot.getChildren()){
+                        desafioAtual.setTitulo((String) dataSnapshot.child("titulo").getValue());
+                        Log.d("recuperarDesafio", "desafioAtual.getTitulo: "+desafioAtual.getTitulo());
 
-                                desafioAtual.setId((String) ds.child("id").getValue());
-                                desafioAtual.setTitulo((String) ds.child("titulo").getValue());
-                                desafioAtual.setDescricao((String) ds.child("descricao").getValue());
+                        desafioAtual.setId((String) dataSnapshot.child("id").getValue());
+                        Log.d("recuperarDesafio", "desafioAtual.getId: "+desafioAtual.getId());
 
-                                /*String sDistancia = String.valueOf(ds.child("distancia").getValue());
-                                double dDistancia = Double.valueOf(sDistancia);
-                               desafioAtual.setDistancia(dDistancia);
-                                desafioAtual.setPontuacao(Integer.parseInt(ds.child("pontuacao").getValue().toString()));
+                        desafioAtual.setDescricao((String) dataSnapshot.child("descricao").getValue());
+                        Log.d("recuperarDesafio", "desafioAtual.getDescricao: "+desafioAtual.getDescricao());
 
-                                desafioAtual.setLocalizacaoInicial(
-                                        new LatLng(
-                                                Double.parseDouble(ds.child("localizacaoInicial").child("latitude").getValue().toString()),
-                                                Double.parseDouble(ds.child("localizacaoInicial").child("longitude").getValue().toString()))
-                                );
+                        String sDistancia = String.valueOf(dataSnapshot.child("distancia").getValue());
+                        double dDistancia = Double.valueOf(sDistancia);
+                        desafioAtual.setDistancia(dDistancia);
+                        Log.d("recuperarDesafio", "desafioAtual.getDistancia: "+desafioAtual.getDistancia());
+                        desafioAtual.setPontuacao(Integer.parseInt(dataSnapshot.child("pontuacao").getValue().toString()));
+                        Log.d("recuperarDesafio", "desafioAtual.getPontuacao: "+desafioAtual.getPontuacao());
 
-                                desafioAtual.setLocalizacaoFinal(
-                                        new LatLng(
-                                                Double.parseDouble(ds.child("localizacaoFinal").child("latitude").getValue().toString()),
-                                                Double.parseDouble(ds.child("localizacaoFinal").child("longitude").getValue().toString()))
-                                );
+                        desafioAtual.setLocalizacaoInicial(
+                                new LatLng(
+                                        Double.parseDouble(dataSnapshot.child("localizacaoInicial").child("latitude").getValue().toString()),
+                                        Double.parseDouble(dataSnapshot.child("localizacaoInicial").child("longitude").getValue().toString()))
+                        );
+                        Log.d("recuperarDesafio", "desafioAtual.getLocalizacaoInicial: "+desafioAtual.getLocalizacaoInicial());
+
+                        desafioAtual.setLocalizacaoFinal(
+                                new LatLng(
+                                        Double.parseDouble(dataSnapshot.child("localizacaoFinal").child("latitude").getValue().toString()),
+                                        Double.parseDouble(dataSnapshot.child("localizacaoFinal").child("longitude").getValue().toString()))
+                        );
+                        Log.d("recuperarDesafio", "desafioAtual.getLocalizacaoFinal: "+desafioAtual.getLocalizacaoFinal());
 
 
-                                final  List<Ponto> pontos = new ArrayList<>();
-                                for(DataSnapshot dsListaPontos : ds.child("listaPontos").getChildren()){
-                                    Ponto ponto = new Ponto();
-                                    ponto.setNome(
-                                            dsListaPontos.child("nome").getValue().toString()
-                                    );
-                                    ponto.setDescricao(
-                                            dsListaPontos.child("descricao").getValue().toString()
-                                    );
-                                    ponto.setPontuacao(
-                                            dsListaPontos.child("pontuacao").getValue(Double.class)
-                                    );
-                                    ponto.setVisibilidade(
-                                            dsListaPontos.child("visibilidade").getValue(Double.class)
-                                    );
-                                    ponto.setStatus(
-                                            dsListaPontos.child("status").getValue().toString()
-                                    );
-                                    ponto.setLocalizacao(
-                                            new LatLng(
-                                                    Double.parseDouble(dsListaPontos.child("localizacao").child("latitude").getValue().toString()),
-                                                    Double.parseDouble(dsListaPontos.child("localizacao").child("longitude").getValue().toString())
-                                            )
-                                    );
 
-                                    //Log.d("ponto", "ponto: "+ponto.toString());
-                                    pontos.add(ponto);
+                        final  List<Ponto> pontos = new ArrayList<>();
 
-                                }
-                                desafioAtual.setListaPontos(pontos);
 
-                                final List<LatLng> caminho = new ArrayList<>();
-                                for(DataSnapshot dsCaminho :ds.child("caminho").getChildren()){
-                                    LatLng local = new LatLng(
-                                            Double.parseDouble(dsCaminho.child("latitude").getValue().toString()),
-                                            Double.parseDouble(dsCaminho.child("longitude").getValue().toString())
-                                    );
-                                    caminho.add(local);
-                                }
-                                desafioAtual.setCaminho(caminho);*/
+                        for(DataSnapshot dsListaPontos : dataSnapshot.child("listaPontos").getChildren()){
+                           // Log.d("pontos", "dataSnapshot.child(\"listaPontos\").getChildren()"+dsListaPontos.getValue());
 
-                                Log.d("desafio1", "onDataChange: desafios: "+desafioAtual.getTitulo());
+                            Ponto ponto = new Ponto();
+                            ponto.setNome(
+                                    dsListaPontos.child("nome").getValue().toString()
+                            );
+                          //  Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("nome").getValue().toString());
+                          //  Log.d("ponto", "ponto.getNome()"+ponto.getNome());
 
-                            }
+                            ponto.setDescricao(
+                                    dsListaPontos.child("descricao").getValue().toString()
+                            );
+                           // Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("descricao").getValue().toString());
+                           // Log.d("ponto", "ponto.getDescricao()"+ponto.getDescricao());
+
+                            ponto.setPontuacao(
+                                    dsListaPontos.child("pontuacao").getValue(Double.class)
+                            );
+                           // Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("pontuacao").getValue(Double.class));
+                           // Log.d("ponto", "ponto.getPontuacao()"+ponto.getPontuacao());
+
+                            ponto.setVisibilidade(
+                                    dsListaPontos.child("visibilidade").getValue(Double.class)
+                            );
+                            //Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("visibilidade").getValue(Double.class));
+                           // Log.d("ponto", "ponto.getVisibilidade"+ponto.getVisibilidade());
+
+                            ponto.setStatus(
+                                    dsListaPontos.child("status").getValue().toString()
+                            );
+                          //  Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("status").getValue().toString());
+                           // Log.d("ponto", "ponto.getStatus()"+ponto.getStatus());
+
+                            ponto.setLocalizacao(
+                                    new LatLng(
+                                            Double.parseDouble(dsListaPontos.child("localizacao").child("latitude").getValue().toString()),
+                                            Double.parseDouble(dsListaPontos.child("localizacao").child("longitude").getValue().toString())
+                                    )
+                            );
+                         //   Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("localizacao").child("latitude").getValue().toString());
+                         //   Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("localizacao").child("longitude").getValue().toString());
+                         //   Log.d("ponto", "ponto.getLocalizacao()"+ponto.getLocalizacao());
+
+                            pontos.add(ponto);
                         }
+                        desafioAtual.setListaPontos(pontos);
+                       // Log.d("pontos", "desafioAtual.getListaPontos: "+desafioAtual.getListaPontos());
+
+                        final List<LatLng> caminho = new ArrayList<>();
+                        for(DataSnapshot dsCaminho :dataSnapshot.child("caminho").getChildren()){
+                            LatLng local = new LatLng(
+                                    Double.parseDouble(dsCaminho.child("latitude").getValue().toString()),
+                                    Double.parseDouble(dsCaminho.child("longitude").getValue().toString())
+                            );
+                            caminho.add(local);
+                        }
+                        desafioAtual.setCaminho(caminho);
+                       // Log.d("recuperarDesafio", "desafioAtual.getCaminho: "+desafioAtual.getCaminho());
                     }
 
                     @Override
@@ -240,6 +267,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     private void carregarDesafioMapa() {
         mMap.clear();
         List<Marker> listaMarcadores = new ArrayList<>();
+        Log.d("mapa", "carregarDesafioMapa: "+desafioAtual.getLocalizacaoInicial());
         Marker inicio = mMap.addMarker(new MarkerOptions().position(desafioAtual.getLocalizacaoInicial()).icon(BitmapDescriptorFactory.fromResource(R.drawable.bandeira_inicio)));
 
         for (Ponto p : desafioAtual.getListaPontos()) {
@@ -321,6 +349,10 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        if(desafioAtual!=null){
+            carregarDesafioMapa();
+        }
+
     }
 
 
@@ -420,7 +452,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-            getMenuInflater().inflate(R.menu.menu_atividade,menu);
+        getMenuInflater().inflate(R.menu.menu_atividade,menu);
         return true;
     }
 

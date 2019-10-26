@@ -73,4 +73,6 @@
     <string name="inserir_descoberta_nome">Place Name</string>
     <string name="inserir_descoberta_pontuacao">Scores</string>
     <string name="inserir_descoberta_visibilidade">Visibility</string>
+    <string name="menu_sair_desafio">Quit</string>
+    <string name="ranking_indiponivel">Currently Unavailable Ranking</string>
 </resources>

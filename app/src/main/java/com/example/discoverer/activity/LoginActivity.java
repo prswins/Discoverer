@@ -243,6 +243,7 @@ public class LoginActivity extends AppCompatActivity {
         extras.putString("usuarioToken", idUsuario);
         i.putExtras(extras);
         startActivity(i);
+        finish();
 
     }
 

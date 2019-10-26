@@ -435,10 +435,6 @@ public class MainActivity extends AppCompatActivity{
                 finish();
                 break;
 
-            case R.id.menuLinguagem:
-
-                LinguagemHelper.trocarLinguagem(getResources(),"PT");
-                break;
         }
 
         return super.onOptionsItemSelected(item);

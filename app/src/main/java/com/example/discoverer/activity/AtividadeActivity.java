@@ -2,6 +2,7 @@ package com.example.discoverer.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -11,6 +12,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.discoverer.R;
+import com.example.discoverer.helper.LinguagemHelper;
 import com.example.discoverer.model.Desafio;
 import com.example.discoverer.model.Ponto;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -412,6 +416,30 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
         arFragment.getArSceneView().getScene().addChild(anchorNode);
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+            getMenuInflater().inflate(R.menu.menu_atividade,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.menuSairAtividade:
+                startActivity(new Intent(this, MainActivity.class));
+                finishAffinity();
+                break;
+
+            case R.id.menuLinguagem:
+
+                LinguagemHelper.trocarLinguagem(getResources());
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

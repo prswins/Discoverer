@@ -21,9 +21,6 @@
         android:title="@string/menu_ranking"
         android:visible="true"
         app:showAsAction="never"></item>
-    <item android:id="@+id/menuLinguagem"
-        android:title="@string/menu_ling"
-        app:showAsAction="never"></item>
 
 
     <item

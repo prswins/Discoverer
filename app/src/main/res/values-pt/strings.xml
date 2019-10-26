@@ -107,12 +107,12 @@
 
     <string name="menu_login">Login </string>
     <string name="menu_ling">Mudar para Ingles</string>
-    <string name="menu_sair">Sair</string>
+    <string name="menu_sair">Exit</string>
     <string name="menu_perfil">Perfil</string>
     <string name="menu_ranking">Ranking</string>
     <!--<string name="alert_descoberta_campoVisibilidade_mensagem">A visibilidade é utilizada para definir o nível de facilidade para encontrar um ponto de descoberta no mapa.\\nSendo assim, é obrigatório a definição de uma pontuação ao seu desafio.</string><!-->
     <string name="alert_descoberta_campoTITULO_mensagem">É obrigatório a definição de um título ao seu ponto de descoberta.</string>
-    <string name="menu_sair_desafio">Desistir</string>
+    <string name="menu_sair_desafio">Abandonar</string>
 
 
 </resources>

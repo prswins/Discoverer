@@ -3,10 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_sair"
+        android:id="@+id/menuSairAtividade"
         android:checkable="true"
         android:enabled="true"
-        android:title="@string/menu_sair"
+        android:title="@string/menu_sair_desafio"
         android:visible="true"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.Button"
+        />
 </menu>

@@ -433,10 +433,6 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                 finishAffinity();
                 break;
 
-            case R.id.menuLinguagem:
-
-                LinguagemHelper.trocarLinguagem(getResources());
-                break;
         }
 
         return super.onOptionsItemSelected(item);

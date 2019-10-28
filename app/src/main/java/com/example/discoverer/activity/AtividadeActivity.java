@@ -74,7 +74,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     TextView pontuacao, tempo;
     LinearLayout layoutAR;
     private PolylineOptions polyline = new PolylineOptions();
-    Desafio desafioAtual = new Desafio();
+    final private Desafio desafioAtual = new Desafio();
     private LocationManager locationManager;
     private LocationListener locationListener;
     private LatLng localizacaoAtual;
@@ -88,6 +88,9 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     private long tempoTotal;
     private String titulo;
     private Object desafio;
+    private LatLng localIniDesafio;
+    private LatLng localFimDesafio;
+    private List<Ponto> listaDescobertas =new ArrayList<>();
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -133,13 +136,13 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
 
 
         inicializarComponentes();
-        // recuperarDesafio();
+        recuperarDesafio();
         recuperarLocalizacaoUsuario();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.atividadeFragmentAR);
         arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdate);
-        recuperarDesafio();
+
 
 
 
@@ -180,12 +183,20 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                         );
                         Log.d("recuperarDesafio", "desafioAtual.getLocalizacaoInicial: "+desafioAtual.getLocalizacaoInicial());
 
+                        localIniDesafio = new LatLng(
+                                Double.parseDouble(dataSnapshot.child("localizacaoInicial").child("latitude").getValue().toString()),
+                                Double.parseDouble(dataSnapshot.child("localizacaoInicial").child("longitude").getValue().toString()));
+
                         desafioAtual.setLocalizacaoFinal(
                                 new LatLng(
                                         Double.parseDouble(dataSnapshot.child("localizacaoFinal").child("latitude").getValue().toString()),
                                         Double.parseDouble(dataSnapshot.child("localizacaoFinal").child("longitude").getValue().toString()))
                         );
                         Log.d("recuperarDesafio", "desafioAtual.getLocalizacaoFinal: "+desafioAtual.getLocalizacaoFinal());
+
+                        localFimDesafio = new LatLng(
+                                Double.parseDouble(dataSnapshot.child("localizacaoFinal").child("latitude").getValue().toString()),
+                                Double.parseDouble(dataSnapshot.child("localizacaoFinal").child("longitude").getValue().toString()));
 
 
 
@@ -299,6 +310,12 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
         );
 
     }
+    private void centralizarMarcador(LatLng local) {
+        mMap.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(local, 20)
+        );
+
+    }
 
 
     public void iniciarAtividade() {
@@ -307,8 +324,29 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
         buttonIniciar.setText(R.string.botao_iniciar_pausado);
         buttonFinalizar.setVisibility(View.GONE);
         startCronometro();
+        ajustarMapa(AtividadeActivity.ATIVIDADE_INICIADA);
     }
 
+    private void ajustarMapa(String status) {
+        switch (status){
+            case AtividadeActivity.ATIVIDADE_INICIADA:
+                centralizarMarcador(desafioAtual.getLocalizacaoInicial());
+                break;
+            case AtividadeActivity.ATIVIDADE_PARADA:
+                centralizarMarcador(localizacaoAtual);
+                break;
+
+            case AtividadeActivity.ATIVIDADE_FINALIZANDO:
+                centralizarMarcador(desafioAtual.getLocalizacaoFinal());
+                break;
+            default :
+                break;
+        }
+
+    }
+    private void iniciarMonitoramentoAtividade(){
+
+    }
 
 
     public void pararAtividade() {

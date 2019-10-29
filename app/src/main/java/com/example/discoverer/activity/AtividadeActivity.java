@@ -1,7 +1,10 @@
 package com.example.discoverer.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -10,7 +13,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.SystemClock;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +25,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.LinearLayout;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +68,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String ATIVIDADE_AGUARDANDO_INICIO = "aguardando";
@@ -71,7 +79,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     public String status_atual;
     private GoogleMap mMap;
     private Button buttonIniciar, buttonFinalizar, buttonAr;
-    TextView pontuacao, tempo;
+    TextView pontuacao, tempo, status,cRegressiva;
     LinearLayout layoutAR;
     private PolylineOptions polyline = new PolylineOptions();
     final private Desafio desafioAtual = new Desafio();
@@ -86,11 +94,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     private boolean atividadeRodando = false;
     private long milesegundosPausado;
     private long tempoTotal;
-    private String titulo;
-    private Object desafio;
-    private LatLng localIniDesafio;
-    private LatLng localFimDesafio;
-    private List<Ponto> listaDescobertas =new ArrayList<>();
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -109,9 +113,16 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
         buttonFinalizar.setTextColor(getResources().getColor(R.color.marron));
         buttonFinalizar.setVisibility(View.GONE);
         pontuacao = findViewById(R.id.textViewPontuacao);
-        pontuacao.setText(R.string.text_tempo+"99999");
+        pontuacao.setText(R.string.text_pontos + desafioAtual.getPontuacao());
         tempo = findViewById(R.id.textViewTempo);
         tempo.setText(R.string.text_tempo);
+        status = findViewById(R.id.textViewStatus);
+        status_atual = AtividadeActivity.ATIVIDADE_AGUARDANDO_INICIO;
+        status.setText(R.string.atividade_status_aguardando);
+        cRegressiva = findViewById(R.id.textViewContagemR);
+        cRegressiva.setVisibility(View.GONE);
+
+
 
 
 
@@ -151,7 +162,9 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     private Desafio recuperarDesafio() {
         final Desafio[] novo = {new Desafio()};
         String idDesafio = (String) this.getIntent().getStringExtra("desafio");
-        setTitle("Desafio: "+ (String) this.getIntent().getStringExtra("nomeDesafio"));
+        String nomeDesafio =  getString(R.string.atividade_desafio_titulo);
+        nomeDesafio = nomeDesafio + (String) this.getIntent().getStringExtra("nomeDesafio");
+        setTitle(nomeDesafio);
         Log.d("string intent", "recuperarDesafio: "+idDesafio);
         if (idDesafio != null ){
             DatabaseReference desafio = FirebaseDatabase.getInstance().getReference().child("desafios").child(idDesafio);
@@ -183,9 +196,6 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                         );
                         Log.d("recuperarDesafio", "desafioAtual.getLocalizacaoInicial: "+desafioAtual.getLocalizacaoInicial());
 
-                        localIniDesafio = new LatLng(
-                                Double.parseDouble(dataSnapshot.child("localizacaoInicial").child("latitude").getValue().toString()),
-                                Double.parseDouble(dataSnapshot.child("localizacaoInicial").child("longitude").getValue().toString()));
 
                         desafioAtual.setLocalizacaoFinal(
                                 new LatLng(
@@ -194,48 +204,43 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                         );
                         Log.d("recuperarDesafio", "desafioAtual.getLocalizacaoFinal: "+desafioAtual.getLocalizacaoFinal());
 
-                        localFimDesafio = new LatLng(
-                                Double.parseDouble(dataSnapshot.child("localizacaoFinal").child("latitude").getValue().toString()),
-                                Double.parseDouble(dataSnapshot.child("localizacaoFinal").child("longitude").getValue().toString()));
-
-
 
                         final  List<Ponto> pontos = new ArrayList<>();
 
 
                         for(DataSnapshot dsListaPontos : dataSnapshot.child("listaPontos").getChildren()){
-                           // Log.d("pontos", "dataSnapshot.child(\"listaPontos\").getChildren()"+dsListaPontos.getValue());
+                            // Log.d("pontos", "dataSnapshot.child(\"listaPontos\").getChildren()"+dsListaPontos.getValue());
 
                             Ponto ponto = new Ponto();
                             ponto.setNome(
                                     dsListaPontos.child("nome").getValue().toString()
                             );
-                          //  Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("nome").getValue().toString());
-                          //  Log.d("ponto", "ponto.getNome()"+ponto.getNome());
+                            //  Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("nome").getValue().toString());
+                            //  Log.d("ponto", "ponto.getNome()"+ponto.getNome());
 
                             ponto.setDescricao(
                                     dsListaPontos.child("descricao").getValue().toString()
                             );
-                           // Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("descricao").getValue().toString());
-                           // Log.d("ponto", "ponto.getDescricao()"+ponto.getDescricao());
+                            // Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("descricao").getValue().toString());
+                            // Log.d("ponto", "ponto.getDescricao()"+ponto.getDescricao());
 
                             ponto.setPontuacao(
                                     dsListaPontos.child("pontuacao").getValue(Double.class)
                             );
-                           // Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("pontuacao").getValue(Double.class));
-                           // Log.d("ponto", "ponto.getPontuacao()"+ponto.getPontuacao());
+                            // Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("pontuacao").getValue(Double.class));
+                            // Log.d("ponto", "ponto.getPontuacao()"+ponto.getPontuacao());
 
                             ponto.setVisibilidade(
                                     dsListaPontos.child("visibilidade").getValue(Double.class)
                             );
                             //Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("visibilidade").getValue(Double.class));
-                           // Log.d("ponto", "ponto.getVisibilidade"+ponto.getVisibilidade());
+                            // Log.d("ponto", "ponto.getVisibilidade"+ponto.getVisibilidade());
 
                             ponto.setStatus(
                                     dsListaPontos.child("status").getValue().toString()
                             );
-                          //  Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("status").getValue().toString());
-                           // Log.d("ponto", "ponto.getStatus()"+ponto.getStatus());
+                            //  Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("status").getValue().toString());
+                            // Log.d("ponto", "ponto.getStatus()"+ponto.getStatus());
 
                             ponto.setLocalizacao(
                                     new LatLng(
@@ -243,14 +248,14 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                                             Double.parseDouble(dsListaPontos.child("localizacao").child("longitude").getValue().toString())
                                     )
                             );
-                         //   Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("localizacao").child("latitude").getValue().toString());
-                         //   Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("localizacao").child("longitude").getValue().toString());
-                         //   Log.d("ponto", "ponto.getLocalizacao()"+ponto.getLocalizacao());
+                            //   Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("localizacao").child("latitude").getValue().toString());
+                            //   Log.d("ponto", "dsListaPontos.getValue()"+dsListaPontos.child("localizacao").child("longitude").getValue().toString());
+                            //   Log.d("ponto", "ponto.getLocalizacao()"+ponto.getLocalizacao());
 
                             pontos.add(ponto);
                         }
                         desafioAtual.setListaPontos(pontos);
-                       // Log.d("pontos", "desafioAtual.getListaPontos: "+desafioAtual.getListaPontos());
+                        // Log.d("pontos", "desafioAtual.getListaPontos: "+desafioAtual.getListaPontos());
 
                         final List<LatLng> caminho = new ArrayList<>();
                         for(DataSnapshot dsCaminho :dataSnapshot.child("caminho").getChildren()){
@@ -261,7 +266,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                             caminho.add(local);
                         }
                         desafioAtual.setCaminho(caminho);
-                       // Log.d("recuperarDesafio", "desafioAtual.getCaminho: "+desafioAtual.getCaminho());
+                        // Log.d("recuperarDesafio", "desafioAtual.getCaminho: "+desafioAtual.getCaminho());
                     }
 
                     @Override
@@ -274,19 +279,40 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
         return novo[0];
     }
 
-
     private void carregarDesafioMapa() {
         mMap.clear();
         List<Marker> listaMarcadores = new ArrayList<>();
         Log.d("mapa", "carregarDesafioMapa: "+desafioAtual.getLocalizacaoInicial());
-        Marker inicio = mMap.addMarker(new MarkerOptions().position(desafioAtual.getLocalizacaoInicial()).icon(BitmapDescriptorFactory.fromResource(R.drawable.bandeira_inicio)));
+        Marker inicio = mMap.addMarker(new MarkerOptions()
+                .position(desafioAtual.getLocalizacaoInicial())
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.bandeira_inicio))
+                .flat(true)
+                .title(desafioAtual.getTitulo())
+
+        );
 
         for (Ponto p : desafioAtual.getListaPontos()) {
             mMap.addPolyline(polyline.add(p.getLocalizacao()).width(5).color(Color.RED));
-            listaMarcadores.add(mMap.addMarker(new MarkerOptions().position(p.getLocalizacao()).icon(BitmapDescriptorFactory.fromResource(R.drawable.binoculo))));
+            listaMarcadores.add(mMap.addMarker(new MarkerOptions()
+                    .position(p.getLocalizacao())
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.binoculo))
+                            .flat(true)
+                            .title(p.getNome())
+                            .snippet(p.getDescricao())
+                    )
+            );
         }
-        listaMarcadores.add(mMap.addMarker(new MarkerOptions().position(desafioAtual.getLocalizacaoFinal()).icon(BitmapDescriptorFactory.fromResource(R.drawable.bandeira_fim))));
+        listaMarcadores.add(mMap.addMarker(new MarkerOptions()
+                .position(desafioAtual.getLocalizacaoFinal())
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.bandeira_fim))
+                        .flat(true)
+                        .title("FIM")
+
+                )
+        );
+
         centralizarMarcadores(inicio, listaMarcadores);
+        pontuacao.setText(pontuacao.getText()+ " " +desafioAtual.getPontuacao());
 
     }
 
@@ -312,19 +338,43 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     }
     private void centralizarMarcador(LatLng local) {
         mMap.moveCamera(
-                CameraUpdateFactory.newLatLngZoom(local, 20)
+                CameraUpdateFactory.newLatLng(local)
         );
-
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(20));
     }
 
 
     public void iniciarAtividade() {
-        status_atual = ATIVIDADE_INICIADA;
-        buttonFinalizar.setVisibility(View.VISIBLE);
-        buttonIniciar.setText(R.string.botao_iniciar_pausado);
-        buttonFinalizar.setVisibility(View.GONE);
-        startCronometro();
-        ajustarMapa(AtividadeActivity.ATIVIDADE_INICIADA);
+        CountDownTimer contador = new CountDownTimer(3300,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                final int TOTAL_MILLIS = 25 * 60 * 1000;
+                final int COUNT_DOWN_INTERVAL = 1000;
+                final String TIME_FORMAT = "%d";
+                cRegressiva.setVisibility(View.VISIBLE);
+                cRegressiva.setText(String.format(
+                        TIME_FORMAT,
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+            }
+
+            @Override
+            public void onFinish() {
+                cRegressiva.setVisibility(View.GONE);
+                status_atual = ATIVIDADE_INICIADA;
+                status.setText((R.string.atividade_status_iniciado));
+                buttonFinalizar.setVisibility(View.VISIBLE);
+                buttonIniciar.setText(R.string.botao_iniciar_pausado);
+                buttonFinalizar.setVisibility(View.GONE);
+                startCronometro();
+                ajustarMapa(AtividadeActivity.ATIVIDADE_INICIADA);
+
+
+            }
+        };
+        contador.start();
+
+
+
     }
 
     private void ajustarMapa(String status) {
@@ -351,6 +401,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
 
     public void pararAtividade() {
         status_atual = ATIVIDADE_PARADA;
+        status.setText(R.string.atividade_status_parada);
         buttonIniciar.setText(R.string.botao_iniciar_iniciar);
         buttonFinalizar.setText(R.string.botao_finalizar);
         buttonFinalizar.setVisibility(View.VISIBLE);
@@ -375,6 +426,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     public void finalizarAtividade() {
 
         status_atual = ATIVIDADE_FINALIZANDO;
+        status.setText(R.string.atividade_status_finalizando);
         Toast.makeText(getApplicationContext(), " tempo total: "+(tempoTotal/1000) ,Toast.LENGTH_LONG).show();
         buttonFinalizar.setVisibility(View.GONE);
     }
@@ -403,6 +455,9 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
             public void onLocationChanged(Location location) {
                 LatLng meuLocalAtual = new LatLng(location.getLatitude(), location.getLongitude());
                 localizacaoAtual = meuLocalAtual;
+                if (atividadeRodando == true){
+                    centralizarMarcador(meuLocalAtual);
+                }
             }
 
             @Override
@@ -426,7 +481,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for Activity#requestPermissions for more details.
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 5, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, locationListener);
 
             return;
         }
@@ -499,14 +554,36 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
 
         switch (item.getItemId()){
             case R.id.menuSairAtividade:
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finishAffinity();
+                exibirAlerta();
                 break;
 
         }
 
         return super.onOptionsItemSelected(item);
     }
+    private void exibirAlerta(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        builder.setTitle(R.string.sair_atividade_dialog_titulo);
+        builder.setMessage(R.string.sair_atividade_dialog_mensagem);
+        builder.setPositiveButton(R.string.atividade_sair_botao_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog dialog = builder.create();
+    }
+
+
+
 
 
 }

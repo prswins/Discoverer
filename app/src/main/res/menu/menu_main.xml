@@ -5,8 +5,9 @@
         android:id="@+id/menuLogin"
         android:title="@string/menu_login"
         app:showAsAction="never"></item>
-    <item android:id="@+id/menuSair"
-        android:title="@string/menu_sair"
+    <item
+        android:id="@+id/menuSair"
+        android:title="@string/menu_main_sair"
         app:showAsAction="never"></item>
 
 </menu>

@@ -75,4 +75,11 @@
     <string name="inserir_descoberta_visibilidade">Visibility</string>
     <string name="menu_sair_desafio">Quit</string>
     <string name="ranking_indiponivel">Currently Unavailable Ranking</string>
+    <string name="atividade_status_aguardando">Waiting</string>
+    <string name="atividade_status_finalizando">Finishing</string>
+    <string name="atividade_status_iniciado">Started</string>
+    <string name="atividade_status_parada">"Stop "</string>
+    <string name="cadastro_nome">" Full name"</string>
+    <string name="atividade_desafio_titulo">"Challenge: "</string>
+    <string name="menu_main_sair" >Exit</string>
 </resources>

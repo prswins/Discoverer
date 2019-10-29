@@ -103,6 +103,15 @@
     <string name="botao_finalizar">Finalizar</string>
     <string name="text_tempo">"Tempo: "</string>
     <string name="text_pontos">Pontos: </string>
+    <string name="atividade_status_aguardando">aguardando</string>
+    <string name="atividade_status_iniciado">iniciada</string>
+    <string name="atividade_status_parada">parada</string>
+    <string name="atividade_status_finalizando">finalizando</string>
+    <string name="atividade_desafio_titulo">desafio</string>
+
+
+
+
 
 
     <string name="menu_login">Login </string>
@@ -113,6 +122,11 @@
     <!--<string name="alert_descoberta_campoVisibilidade_mensagem">A visibilidade é utilizada para definir o nível de facilidade para encontrar um ponto de descoberta no mapa.\\nSendo assim, é obrigatório a definição de uma pontuação ao seu desafio.</string><!-->
     <string name="alert_descoberta_campoTITULO_mensagem">É obrigatório a definição de um título ao seu ponto de descoberta.</string>
     <string name="menu_sair_desafio">Desistir</string>
+    <string name="menu_main_sair" >Sair</string>
+    <string name="sair_atividade_dialog_titulo">Abandonar Desafio</string>
+    <string name="sair_atividade_dialog_mensagem">Se voce confirma a saida perdera todo o registro de percurso . /n Deseja continuar ?</string>
+    <string name="atividade_sair_botao_ok">Confirmo</string>
+    <string name="cancel">cancelar</string>
 
 
 </resources>

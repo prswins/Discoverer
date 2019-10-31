@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 
 import com.example.discoverer.config.ConfiguracaoFirebase;
 import com.example.discoverer.model.Usuario;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -67,7 +69,7 @@ public class UsuarioFirebase {
                     usuarioRecuperado.setNumeroDescobertas(usuario.getNumeroDescobertas());
                     usuarioRecuperado.setDistanciaPercorrida(usuario.getDistanciaPercorrida());
                     usuarioRecuperado.setPontuacao(usuario.getPontuacao());
-                    Log.d("recuperarUsuarioEspecifico", "onDataChange: "+usuarioRecuperado.getNome());
+                    Log.d("recuperarUsu", "onDataChange: "+usuarioRecuperado.getNome());
 
                 }
 
@@ -166,5 +168,31 @@ public class UsuarioFirebase {
     public static String getIdentificadorUsuario(){
         return getUsuarioAtual().getUid();
     }
+
+    public static void addDesafioGeoFire(double lat, double lon, String idDesafio, String tipoPonto){
+        int tamString = idDesafio.length();
+
+        //Define nó de local de usuário
+        DatabaseReference localUsuario = ConfiguracaoFirebase.getFirebaseDatabase()
+                .child("atividade").child(idDesafio);
+        GeoFire geoFire = new GeoFire(localUsuario);
+
+        //Configura localização
+        geoFire.setLocation(
+                idDesafio+"_"+tipoPonto,
+                new GeoLocation(lat, lon),
+                new GeoFire.CompletionListener() {
+                    @Override
+                    public void onComplete(String key, DatabaseError error) {
+                        if( error != null ){
+                            Log.d("Erro", "Erro ao salvar local!");
+                        }
+                    }
+                }
+        );
+
+    }
+
+
 
 }

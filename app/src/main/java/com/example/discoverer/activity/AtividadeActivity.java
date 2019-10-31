@@ -35,14 +35,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.discoverer.R;
+import com.example.discoverer.config.ConfiguracaoFirebase;
 import com.example.discoverer.helper.LinguagemHelper;
+import com.example.discoverer.helper.UsuarioFirebase;
 import com.example.discoverer.model.Desafio;
 import com.example.discoverer.model.Ponto;
+import com.example.discoverer.model.Usuario;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
+import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -94,6 +103,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     private boolean atividadeRodando = false;
     private long milesegundosPausado;
     private long tempoTotal;
+    final List<GeoQuery> listaGeolocation = new ArrayList<>();
 
 
 
@@ -290,6 +300,9 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                 .title(desafioAtual.getTitulo())
 
         );
+        mMap.addPolyline(polyline.add(desafioAtual.getLocalizacaoInicial()).width(5).color(Color.RED));
+
+        UsuarioFirebase.addDesafioGeoFire(desafioAtual.getLocalizacaoInicial().latitude,desafioAtual.getLocalizacaoInicial().longitude ,desafioAtual.getId(),"inicio");
 
         for (Ponto p : desafioAtual.getListaPontos()) {
             mMap.addPolyline(polyline.add(p.getLocalizacao()).width(5).color(Color.RED));
@@ -301,6 +314,8 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                             .snippet(p.getDescricao())
                     )
             );
+            UsuarioFirebase.addDesafioGeoFire(p.getLocalizacao().latitude,p.getLocalizacao().longitude ,desafioAtual.getId(),p.getNome());
+
         }
         listaMarcadores.add(mMap.addMarker(new MarkerOptions()
                 .position(desafioAtual.getLocalizacaoFinal())
@@ -310,6 +325,8 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
 
                 )
         );
+        mMap.addPolyline(polyline.add(desafioAtual.getLocalizacaoFinal()).width(5).color(Color.RED));
+        UsuarioFirebase.addDesafioGeoFire(desafioAtual.getLocalizacaoFinal().latitude,desafioAtual.getLocalizacaoFinal().longitude ,desafioAtual.getId(),"final");
 
         centralizarMarcadores(inicio, listaMarcadores);
         pontuacao.setText(pontuacao.getText()+ " " +desafioAtual.getPontuacao());
@@ -394,9 +411,6 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
         }
 
     }
-    private void iniciarMonitoramentoAtividade(){
-
-    }
 
 
     public void pararAtividade() {
@@ -446,6 +460,72 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
 
+    //passando como parametro a localizacao do ponto que sera monitorado
+    private void iniciarMonitoramento(final LatLng localDestino, int visibilidade, String desafioID){
+
+        DatabaseReference localDesafio = ConfiguracaoFirebase.getFirebaseDatabase()
+                .child("atividade").child(desafioID);
+        GeoFire geoFire = new GeoFire(localDesafio);
+
+
+        //Adiciona círculo no ponto a ser descoberto
+        final Circle circulo = mMap.addCircle(
+                new CircleOptions()
+                        .center( localDestino )
+                        .radius(visibilidade)//em metros
+                        .fillColor(Color.argb(90,255, 153,0))
+                        .strokeColor(Color.argb(190,255,152,0))
+        );
+
+        final GeoQuery geoQuery = geoFire.queryAtLocation(
+                new GeoLocation(localDestino.latitude, localDestino.longitude),
+                (visibilidade/10000)//em km (0.05 50 metros)
+        );
+        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+            @Override
+            public void onKeyEntered(String key, GeoLocation location) {
+
+                Log.d("onKeyEntered", "onKeyEntered: está dentro da área!"+key.substring(20,key.length()));
+                AtividadeActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),"entrou"+ key.substring(20,key.length()) ,Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
+
+            }
+
+            @Override
+            public void onKeyExited(String key) {
+                Log.d("onKeyEntered", "onKeyEntered: está fora da área!"+key);
+                AtividadeActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),"saiu"+ key ,Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+                Toast.makeText(getApplicationContext(),"moveu"+ key ,Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+                Log.d("onGeoQueryError", "onGeoQueryError: "+error.toString());
+            }
+        });
+
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void recuperarLocalizacaoUsuario() {
 
@@ -455,7 +535,10 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
             public void onLocationChanged(Location location) {
                 LatLng meuLocalAtual = new LatLng(location.getLatitude(), location.getLongitude());
                 localizacaoAtual = meuLocalAtual;
+
                 if (atividadeRodando == true){
+                    //UsuarioFirebase.atualizarDadosLocalizacaoUsuarioDesafio(location.getLatitude(), location.getLongitude(),desafioAtual.getId());
+                    iniciarMonitoramento(localizacaoAtual,5,desafioAtual.getId());
                     centralizarMarcador(meuLocalAtual);
                 }
             }
@@ -582,7 +665,18 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
         AlertDialog dialog = builder.create();
     }
 
+    @Override
+    protected void onStop(){
+        super.onStop();
 
+       // DatabaseReference localDesafio = ConfiguracaoFirebase.getFirebaseDatabase()
+       //         .child("atividade").child(desafioAtual.getKey());
+       // GeoFire geoFire = new GeoFire(localDesafio);
+       // geoFire.removeLocation(desafioAtual.getKey());
+
+
+
+    }
 
 
 

@@ -170,29 +170,25 @@ public class UsuarioFirebase {
     }
 
     public static void addDesafioGeoFire(double lat, double lon, String idDesafio, String tipoPonto){
-        int tamString = idDesafio.length();
-
         //Define nó de local de usuário
         DatabaseReference localUsuario = ConfiguracaoFirebase.getFirebaseDatabase()
-                .child("atividade").child(idDesafio);
+                .child("geofire").child(idDesafio);
         GeoFire geoFire = new GeoFire(localUsuario);
 
         //Configura localização
         geoFire.setLocation(
-                idDesafio+"_"+tipoPonto,
+                idDesafio+tipoPonto,
                 new GeoLocation(lat, lon),
                 new GeoFire.CompletionListener() {
                     @Override
                     public void onComplete(String key, DatabaseError error) {
                         if( error != null ){
-                            Log.d("Erro", "Erro ao salvar local!");
+                            Log.d("Erro", "Erro ao salvar local!"+error.toString());
                         }
                     }
                 }
         );
 
     }
-
-
 
 }

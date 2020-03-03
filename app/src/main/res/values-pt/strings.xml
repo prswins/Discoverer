@@ -84,7 +84,7 @@
 </string>
 
 
-    <string name="main_descricao_app">"O discoverer é um aplicativo que tem por objetivo estimular o turismo em conjunto com práticas de atividades físicas."</string>
+    <string name="main_descricao_app">O discoverer é um aplicativo que tem por objetivo estimular a prática de atividades físicas.</string>
 
 
     <string name="main_unidade_medida_pontuacao_singular">Ponto</string>
@@ -119,6 +119,19 @@
     <string name="atividade_status_parada">Parado</string>
     <string name="atividade_desafio_titulo">"Desafio: "</string>
     <string name="menu_main_sair" >Sair</string>
+    <string name="atividade_status_aguardando_ponto_inicio">Vá até o ponto de início</string>
+    <string name="msgObj_ini">Bom jogo !</string>
+    <string name="msgObj_des">Parabens pela descoberta</string>
+    <string name="msgObj_fim">Desafio concluido</string>
+    <string name="bonus_obtido">Pontos Extras Obtidos</string>
+    <string name="alert_descoberta_desc">Parabens,  realizou uma descoberta e sera recompensado</string>
+    <string name="cancel">Cancelar</string>
+    <string name="atividade_sair_botao_ok">Confirmo</string>
+    <string name="sair_atividade_dialog_mensagem">Se voce confirmar a saida perde todo o registro de percurso. Deseja continuar ?</string>
+    <string name="sair_atividade_dialog_titulo">Abandonar Desafio</string>
+    <string name="clicar_no_plano">Deve tocar no objeto</string>
+    <string name="desafio_concluido" >Muito bem, você é um vencedor e  terminou o desafio. Parabens!</string>
+    <string name="desafio_finalizar" >Clique aqui para salvar sua atividade</string>
 
 
 </resources>

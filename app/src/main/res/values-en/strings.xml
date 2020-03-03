@@ -62,7 +62,7 @@
     <string name="main_descricao_sessao_logado">We always have new activities for you, keep increasing your points.  Here are some challenges, Nice ride and have fun</string>
     <string name="main_descricao_sessao">We provide some activities as a challenge for you to meet and surpass other users, while knowing the best sights in the region. Each completed activity generates points so you can improve your ranking.  Here are some challenges, Nice ride and have fun</string>
     <string name="main_descricao_app_logado">Discovery missed you! We are happy with your return.</string>
-    <string name="main_descricao_app">Discoverer is an application that aims to stimulate tourism in conjunction with physical activity practices.</string>
+    <string name="main_descricao_app">The discoverer is an application that aims to encourage the practice of physical activities.</string>
     <string name="login_senha">Password</string>
     <string name="login_email">Email</string>
     <string name="lista_desafio_vazia">No challenges</string>
@@ -82,4 +82,19 @@
     <string name="cadastro_nome">" Full name"</string>
     <string name="atividade_desafio_titulo">"Challenge: "</string>
     <string name="menu_main_sair" >Exit</string>
+    <string name="atividade_status_aguardando_ponto_inicio">Go to start point</string>
+    <string name="msgObj_ini">Bom jogo !</string>
+    <string name="msgObj_des">Parabens pela descoberta</string>
+    <string name="msgObj_fim">Desafio concluido</string>
+    <string name="bonus_obtido">Extra Points Obtained</string>
+    <string name="alert_descoberta_desc">Congratulations, made a discovery and will be rewarded</string>
+    <string name="cancel">Cancel</string>
+    <string name="atividade_sair_botao_ok">I Agree</string>
+    <string name="sair_atividade_dialog_mensagem">If you confirm the exit, you lose the entire route record. Do you wish to continue ?</string>
+    <string name="sair_atividade_dialog_titulo">Abandon Challenge</string>
+    <string name="linguagem_portugues">Portuguese</string>
+    <string name="linguagem_ingles">English</string>
+    <string name="clicar_no_plano">You must click on the object</string>
+    <string name="desafio_concluido" >Okay, you’re a winner and you’ve finished the challenge. Congratulations!</string>
+    <string name="desafio_finalizar" >Click here to save your activity</string>
 </resources>

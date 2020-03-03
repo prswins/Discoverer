@@ -10,84 +10,115 @@
 
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_gravity="center"
         android:background="@drawable/bg_telas"
         android:orientation="vertical"
         android:padding="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
 
-        <TextView
-            android:id="@+id/textViewSaudacao"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:paddingStart="8dp"
-            android:text="@string/main_saudacao"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textViewBreveDescricao"
+            <TextView
+                android:id="@+id/textViewSaudacao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:paddingStart="8dp"
+                android:text="@string/main_saudacao"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewBreveDescricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#80FFFFFF"
+                android:gravity="center"
+                android:textSize="24sp"
+                app:layout_constraintTop_toBottomOf="@+id/textViewSaudacao" />
+            <!--
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <fragment
+
+                    android:id="@+id/mainFragmentAR"
+                    android:name="com.google.ar.sceneform.ux.ArFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp" />
+            </LinearLayout>-->
+
+            <TextView
+                android:id="@+id/textViewTituloSessao1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:text="@string/main_titulo_sessao"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/textViewBreveDescricao"
+                app:layout_constraintStart_toStartOf="@+id/textViewBreveDescricao"
+                app:layout_constraintTop_toBottomOf="@+id/textViewBreveDescricao" />
+
+            <TextView
+                android:id="@+id/textViewDescSessao1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="#80FFFFFF"
+                android:gravity="center|start"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="@+id/textViewTituloSessao1"
+                app:layout_constraintStart_toStartOf="@+id/textViewTituloSessao1"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTituloSessao1" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RecyclerViewSessao1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:foregroundGravity="center"
+                android:isScrollContainer="false"
+                android:persistentDrawingCache="scrolling"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDescSessao1">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/botaoMainLogin"
+            style="@style/botoes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#80FFFFFF"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_margin="2dp"
+            android:layout_weight="12"
             android:gravity="center"
-            android:textSize="24sp"
-            app:layout_constraintTop_toBottomOf="@+id/textViewSaudacao" />
-
-        <fragment
-            android:id="@+id/mainFragmentAR"
-            android:name="com.google.ar.sceneform.ux.ArFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp" />
-
-        <TextView
-            android:id="@+id/textViewTituloSessao1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:text="@string/main_titulo_sessao"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="@+id/textViewBreveDescricao"
-            app:layout_constraintStart_toStartOf="@+id/textViewBreveDescricao"
-            app:layout_constraintTop_toBottomOf="@+id/textViewBreveDescricao" />
-
-        <TextView
-            android:id="@+id/textViewDescSessao1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:background="#80FFFFFF"
-            android:gravity="center|start"
-            android:text="TextView"
-            app:layout_constraintEnd_toEndOf="@+id/textViewTituloSessao1"
-            app:layout_constraintStart_toStartOf="@+id/textViewTituloSessao1"
-            app:layout_constraintTop_toBottomOf="@+id/textViewTituloSessao1" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RecyclerViewSessao1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            android:foregroundGravity="center"
-            android:isScrollContainer="false"
-            android:persistentDrawingCache="scrolling"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDescSessao1" />
+            android:text="@string/tela_login_entrar"
+            android:textAlignment="center" />
 
     </LinearLayout>
 

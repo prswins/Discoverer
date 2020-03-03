@@ -25,28 +25,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_linear_layout"
-            android:padding="8dp"
-            tools:srcCompat="@drawable/ic_person_brown_24dp" />
-
-        <Button
-            android:id="@+id/buttonAlterarFotoPerfil"
-            style="@style/botoes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/botao_alterarfoto_perfil" />
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_margin="8dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -61,26 +47,28 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_margin="8dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_margin="2dp"
                 android:layout_marginTop="8dp"
+                android:gravity="left"
                 android:text="@string/perfil_km_percorridos"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textViewDistKm"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="left"
                 android:layout_margin="2dp"
                 android:text="TextView"
                 android:textColor="@color/colorAccent"
@@ -88,26 +76,28 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_margin="8dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_margin="2dp"
                 android:layout_marginTop="8dp"
+                android:gravity="left"
                 android:text="@string/perfil_descobertas"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textViewTotalDescobertas"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="left"
                 android:layout_margin="2dp"
                 android:text="TextView"
                 android:textColor="@color/colorAccent"
@@ -115,26 +105,28 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_margin="8dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textViewPontuacao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_margin="2dp"
                 android:layout_marginTop="8dp"
+                android:gravity="left"
                 android:text="@string/perfil_pontuacao"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textViewTotalPontuacao"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="left"
                 android:layout_margin="2dp"
                 android:text="TextView"
                 android:textColor="@color/colorAccent"

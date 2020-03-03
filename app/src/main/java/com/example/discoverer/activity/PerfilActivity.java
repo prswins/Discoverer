@@ -23,17 +23,22 @@ public class PerfilActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         inicializarComponentes();
-        //recuperarUsuario();
+
 
     }
     public void recuperarUsuario(){
         if(getIntent() != null){
             Intent intent = this.getIntent();
             Bundle bundle = intent.getExtras();
-            if(bundle.getSerializable("usuario") != null){
+            //Log.d("getIntent", "recuperarUsuario: getIntent: " + getIntent().getBundleExtra("usuario"));
+           if(bundle.getSerializable("usuario") != null){
                 usuarioLocal = (Usuario) bundle.getSerializable("usuario");
 
-                Log.d("recuperarUsuario", "recuperarUsuario: "+usuarioLocal.getNome());
+                Log.d("recuperarUsuario", "PerfilrecuperarUsuario: "+usuarioLocal.getNome() + " "
+                                                                        + usuarioLocal.getID() +"  "
+                                                                        + usuarioLocal.getEmail() +"  "
+                                                                      );
+
                 Log.d("perfilrecueprar", "recuperar descobertas: "+usuarioLocal.getNumeroDescobertas());
 
 
@@ -58,7 +63,7 @@ public class PerfilActivity extends AppCompatActivity {
         totalKm = findViewById(R.id.textViewDistKm);
         pontuacao = findViewById(R.id.textViewTotalPontuacao);
         totalDescobertas = findViewById(R.id.textViewTotalDescobertas);
-
+        recuperarUsuario();
     }
 
     public void abrirTelaDesafio(View view){

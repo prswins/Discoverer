@@ -93,7 +93,7 @@ public class DesafioActivity extends AppCompatActivity implements OnMapReadyCall
     }
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void inicializar(){
-        limparCampos();
+
         textViewInformacao.setText(R.string.inserir_desafio_info_inicial);
         linearLayoutInserirDescoberta.setVisibility(View.GONE);
         linearLayoutDesafio.setVisibility(View.GONE);
@@ -181,13 +181,14 @@ public class DesafioActivity extends AppCompatActivity implements OnMapReadyCall
                             R.string.alert_descoberta_campoPontuacao_mensagem,
                             R.string.alert_descoberta_campoPontuacao_botao_confirmar);
                 }else{
-                    if(editDescobertaVisibilidade.getText() == null || (editDescobertaVisibilidade.getText()).equals("")){
+                   /* if(editDescobertaVisibilidade.getText() == null || (editDescobertaVisibilidade.getText()).equals("")){
                         alertaMensagem(R.string.alert_descoberta_campoVisibilidade_titulo,
                                 R.string.alert_descoberta_campoVisibilidade_mensagem,
                                 R.string.alert_descoberta_campoVisibilidade_botao_confirmar);
                     }else{
-                        camposOk = true;
-                    }
+
+                    }*/
+                    camposOk = true;
                 }
             }
         }
@@ -214,7 +215,7 @@ public class DesafioActivity extends AppCompatActivity implements OnMapReadyCall
         adicionarMarcadorFim(localizacaoAtual);
         if(verificarDadosDesafio()){
             confirmarFinalizacaoDesafio();
-            mapaFinal();
+            //mapaFinal();
         }else{
             Toast.makeText(DesafioActivity.this,
                     "Preencher todos os dados do desafio ",
@@ -301,7 +302,7 @@ public class DesafioActivity extends AppCompatActivity implements OnMapReadyCall
 
         editDescobertaNome = findViewById(R.id.editTextInserirDescobertaNome);
         editDescobertaDescricao = findViewById(R.id.editTextInserirDescobertaDescricao);
-        editDescobertaVisibilidade = findViewById(R.id.editTextInserirDescobertaVisibilidades);
+        //editDescobertaVisibilidade = findViewById(R.id.editTextInserirDescobertaVisibilidades);
         editDescobertaPontuacao = findViewById(R.id.editTextInserirDescobertaPontuacao);
 
         botaoIniciarParar = findViewById(R.id.buttonComecarParar);
@@ -496,7 +497,7 @@ public class DesafioActivity extends AppCompatActivity implements OnMapReadyCall
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(localizacaoPercorrida.get(0)).icon(BitmapDescriptorFactory.fromResource(R.drawable.bandeira_inicio)));
         mMap.addMarker(new MarkerOptions().position(localizacaoPercorrida.get(localizacaoPercorrida.size()-1)).icon(BitmapDescriptorFactory.fromResource(R.drawable.bandeira_fim)));
-        for(int i = 0; i < localizacaoPercorrida.size(); i++){
+        for(int i = 0; i <= localizacaoPercorrida.size(); i++){
             mMap.addPolyline(polyline.add(localizacaoPercorrida.get(i)).width(5).color(Color.RED));
         }
         for(int i = 0; i < listaDescobertas.size(); i++){
@@ -519,7 +520,7 @@ public class DesafioActivity extends AppCompatActivity implements OnMapReadyCall
         recuperarDadosDesafio();
         desafioAtual.setTitulo(desafioTitulo);
         desafioAtual.setDescricao(desafioDescricao);
-        //desafioAtual.setPontuacao( Integer.parseInt(desafioPontuacao));
+        desafioAtual.setPontuacao( Integer.parseInt(desafioPontuacao));
         desafioAtual.setStatus(Desafio.STATUS_ATIVO);
         desafioAtual.calcularDistancia();
         desafioAtual.salvar();
@@ -539,14 +540,14 @@ public class DesafioActivity extends AppCompatActivity implements OnMapReadyCall
         Ponto novoPonto = new Ponto();
         novoPonto.setNome(editDescobertaNome.getText().toString());
         novoPonto.setLocalizacao(latLng);
-        novoPonto.setDescricao(editDesafioDesc.getText().toString());
+        novoPonto.setDescricao(editDescobertaDescricao.getText().toString());
 
         //  novoPonto.setVisibilidade(Double.valueOf(String.valueOf(editDescobertaVisibilidade.getText())));
-        novoPonto.setPontuacao(Double.valueOf(String.valueOf(editDescobertaPontuacao.getText())));
+        novoPonto.setPontuacao(Double.valueOf(editDescobertaPontuacao.getText().toString()));
         novoPonto.setStatus(Ponto.STATUS_ATIVO);
 
         limparCamposdescoberta();
-
+        Log.d("pontodescoberta",novoPonto.toString());
         return novoPonto;
     }
 
@@ -554,7 +555,7 @@ public class DesafioActivity extends AppCompatActivity implements OnMapReadyCall
     private void limparCamposdescoberta() {
         editDescobertaNome.setText(null);
         editDescobertaDescricao.setText(null);
-        editDescobertaVisibilidade.setText(null);
+       // editDescobertaVisibilidade.setText(null);
         editDescobertaPontuacao.setText(null);
     }
 }

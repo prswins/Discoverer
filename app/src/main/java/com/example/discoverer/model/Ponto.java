@@ -2,7 +2,9 @@ package com.example.discoverer.model;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class Ponto {
+import java.io.Serializable;
+
+public class Ponto implements Serializable {
     String id,nome, status, descricao;
     LatLng localizacao;
     Double visibilidade, pontuacao;

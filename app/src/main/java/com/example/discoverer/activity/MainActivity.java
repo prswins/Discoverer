@@ -12,10 +12,12 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -25,7 +27,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.discoverer.R;
 import com.example.discoverer.RecyclerItemClickListener;
 import com.example.discoverer.adapter.DesafioAdapterMain;
-import com.example.discoverer.helper.LinguagemHelper;
 import com.example.discoverer.helper.Permissoes;
 import com.example.discoverer.model.Desafio;
 import com.example.discoverer.model.Ponto;
@@ -33,6 +34,7 @@ import com.example.discoverer.model.Usuario;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.ar.core.Anchor;
 import com.google.ar.core.Frame;
+import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
 import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.AnchorNode;
@@ -41,6 +43,7 @@ import com.google.ar.sceneform.HitTestResult;
 import com.google.ar.sceneform.Node;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
+import com.google.ar.sceneform.ux.BaseArFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -65,9 +68,9 @@ public class MainActivity extends AppCompatActivity{
     };
     private Usuario usuarioLocal = new Usuario();
     private List<Desafio> listaDesafio = new ArrayList<>();
-    private ArFragment arFragment;
     private Boolean auth = false;
-    private Boolean isModelPlaced = false;
+   // private Boolean isModelPlaced = false;
+    private Button botaoLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +94,8 @@ public class MainActivity extends AppCompatActivity{
                 String nomeUsuario = dados.getString("usuarioNome");
                 Log.d("intent", " onCreate"+nomeUsuario);
                 usuarioLocal.setNome(nomeUsuario);
+
+                recuperarUsuario(user_token);
             }
 
 
@@ -103,10 +108,28 @@ public class MainActivity extends AppCompatActivity{
         recuperarDesafios();
         inicializarComponentes();
 
+    }
 
+    private void recuperarUsuario(String user_token) {
+        DatabaseReference usuarios = FirebaseDatabase.getInstance().getReference().child("usuarios").child(user_token);
+        usuarios.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               // Log.d("usuarioRecuperado", "mainonDataChange: "+dataSnapshot.toString());
+                Usuario usuarioRecuperado = new Usuario();
+                usuarioRecuperado = dataSnapshot.getValue(Usuario.class);
+              //  Log.d("usuarioRecuperado", "mainonDataChange: "+usuarioRecuperado.getNome());
+                usuarioLocal = usuarioRecuperado;
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
+
     private void recuperarDesafios(){
 
         DatabaseReference desafios = FirebaseDatabase.getInstance().getReference().child("desafios");
@@ -211,16 +234,28 @@ public class MainActivity extends AppCompatActivity{
         textViewTituloSessao1 = findViewById(R.id.textViewTituloSessao1);
         textViewDescricaoSesao1 = findViewById(R.id.textViewDescSessao1);
         recyclerDesafios = findViewById(R.id.RecyclerViewSessao1);
+        botaoLogin = findViewById(R.id.botaoMainLogin);
+        botaoLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
 
         if(auth== false){
             textViewSaudacao.setText(R.string.main_saudacao_visitante);
             textViewBreveDescricao.setText(R.string.main_descricao_app);
             textViewDescricaoSesao1.setText(R.string.main_descricao_sessao);
+            botaoLogin.setText(R.string.tela_login_entrar);
         }else{
             textViewSaudacao.setText(textViewSaudacao.getText()+" "+ usuarioLocal.getNome());
             textViewBreveDescricao.setText(R.string.main_descricao_app_logado);
             textViewDescricaoSesao1.setText(R.string.main_descricao_sessao_logado);
+            recyclerDesafios.setEnabled(true);
+            botaoLogin.setVisibility(View.GONE);
         }
 
 
@@ -229,12 +264,13 @@ public class MainActivity extends AppCompatActivity{
 
 
 
-
+/*
         arFragment = (ArFragment)getSupportFragmentManager().findFragmentById(R.id.mainFragmentAR);
         // objeto eh adicionado com click//
-        /*
+
         if (arFragment != null) {
             arFragment.setOnTapArPlaneListener(new BaseArFragment.OnTapArPlaneListener(){
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onTapPlane(HitResult hitResult, Plane plane, MotionEvent motionEvent) {
                     Anchor anchor = hitResult.createAnchor();
@@ -254,9 +290,9 @@ public class MainActivity extends AppCompatActivity{
 
                 }
             });
-        }*/
+        }
 
-        arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdate);
+       arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdate);*/
 
         desafioAdapter = new DesafioAdapterMain(listaDesafio,getApplicationContext());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -271,18 +307,25 @@ public class MainActivity extends AppCompatActivity{
                             @Override
                             public void onItemClick(View view, int position) {
                                 Desafio desafio = (Desafio) listaDesafio.get(position);
-                                Toast.makeText(getApplicationContext(),"Carregando desafio "+ desafio.getTitulo(), Toast.LENGTH_LONG).show();
-                                Log.d("onItemClick: ", "onItemClick: "+listaDesafio.get(position).getTitulo());
+                                if (auth == true){
+                                    Toast.makeText(getApplicationContext(),"Carregando desafio "+ desafio.getTitulo(), Toast.LENGTH_LONG).show();
+                               //     Log.d("onItemClick: ", "onItemClick: "+listaDesafio.get(position).getTitulo());
 
 
-                                Intent i  = new Intent(getApplicationContext(), AtividadeActivity.class);
+                                    Intent i  = new Intent(getApplicationContext(), AtividadeActivity.class);
+                                    i.putExtra("idUsuario", usuarioLocal.getID());
+
                                 //Bundle extras = new Bundle();
                                // extras.putSerializable("desafio", desafio);
                               //  i.putExtras(extras);
-                                Log.d("main activity", "onItemClick: "+listaDesafio.get(position).getId());
+                              //  Log.d("main activity", "onItemClick: "+listaDesafio.get(position).getId());
                                 i.putExtra("nomeDesafio", desafio.getTitulo());
                                 i.putExtra("desafio", desafio.getId());
                                 startActivity(i);
+                                }else{
+                                    Toast.makeText(getApplicationContext(),"Para comecar tem que se autenticar", Toast.LENGTH_LONG).show();
+                                    abrirTelaLogin();
+                                }
 
                             }
 
@@ -300,7 +343,7 @@ public class MainActivity extends AppCompatActivity{
 
 
     }
-
+/*
     private void onUpdate(FrameTime frameTime) {
         if(isModelPlaced){
             return;
@@ -325,7 +368,7 @@ public class MainActivity extends AppCompatActivity{
         isModelPlaced = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             ModelRenderable.builder()
-                    .setSource(getApplicationContext(), R.raw.bear)
+                    .setSource(getApplicationContext(), R.raw.trofeu)
                     .build()
                     .thenAccept(renderable -> adicionarModelo3d(anchor, renderable))
                     .exceptionally(
@@ -346,16 +389,16 @@ public class MainActivity extends AppCompatActivity{
         anchorNode.setOnTapListener(new Node.OnTapListener() {
             @Override
             public void onTap(HitTestResult hitTestResult, MotionEvent motionEvent) {
-                Toast.makeText(arFragment.getContext(),"Ola !!!",Toast.LENGTH_LONG).show();
+                Toast.makeText(arFragment.getContext(),R.string.bonus_obtido,Toast.LENGTH_LONG).show();
 
             }
         });
         arFragment.getArSceneView().getScene().addChild(anchorNode);
 
 
-    }
+    }*/
 
-    public void abrirTelaLogin(View view){
+    public void abrirTelaLogin(){
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
 
@@ -413,6 +456,14 @@ public class MainActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
+            case R.id.menuInserirDesafio:
+                Intent i4 = new Intent(this, DesafioActivity.class);
+                Bundle extras = new Bundle();
+                extras.putSerializable("usuario", usuarioLocal);
+                i4.putExtras(extras);
+                startActivity(i4);
+                break;
+
             case R.id.menuSair:
 
                 finish();
@@ -425,14 +476,15 @@ public class MainActivity extends AppCompatActivity{
                 break;
             case R.id.menuPerfil:
                 Intent i2 = new Intent(this, PerfilActivity.class);
+                i2.putExtra("usuario", usuarioLocal);
+                //Log.d("usuarioLocal", "onOptionsItemSelected: "+usuarioLocal.toString());
                 startActivity(i2);
-                finish();
+
                 break;
 
             case R.id.menuRanking:
                 Intent i3 = new Intent(this, RankingActivity.class);
                 startActivity(i3);
-                finish();
                 break;
 
         }

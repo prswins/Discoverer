@@ -74,15 +74,6 @@
                 android:hint="@string/inserir_descoberta_pontuacao"
                 android:inputType="number" />
 
-            <EditText
-                android:id="@+id/editTextInserirDescobertaVisibilidades"
-                style="@style/formularios"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/inserir_descoberta_visibilidade"
-                android:inputType="textPersonName" />
-
             <Button
                 android:id="@+id/buttonConcluirDescoberta"
                 style="@style/botoes"

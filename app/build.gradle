@@ -56,3 +56,8 @@ sceneform.asset('sampledata/bear.fbx',
         'default',
         'sampledata/bear.sfa',
         'src/main/res/raw/bear')
+
+sceneform.asset('sampledata/trofeu.fbx',
+        'default',
+        'sampledata/trofeu.sfa',
+        'src/main/res/raw/trofeu')

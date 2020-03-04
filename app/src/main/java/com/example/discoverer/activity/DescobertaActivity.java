@@ -42,6 +42,7 @@ public class DescobertaActivity extends AppCompatActivity {
     private TextView textTitulo, textDescricao;
     private Button botaoSair;
     private AlertDialog alerta;
+    private double pontuacao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +64,7 @@ public class DescobertaActivity extends AppCompatActivity {
             Log.d("recuperado", "recuperado: "+getIntent().getExtras().getString("titulo"));
             textTitulo.setText(getIntent().getExtras().getString("titulo"));
             textDescricao.setText(getIntent().getExtras().getString("desc"));
+            pontuacao = getIntent().getExtras().getDouble("ponto");
         }
        /* Intent intent = getIntent();
         Bundle dados = new Bundle();
@@ -192,9 +194,11 @@ public class DescobertaActivity extends AppCompatActivity {
 
     }
     private void retornarActivityOK(){
-        Toast.makeText(arFragment.getContext(),R.string.bonus_obtido,Toast.LENGTH_LONG).show();
+        Toast.makeText(arFragment.getContext(), R.string.bonus_obtido ,Toast.LENGTH_LONG).show();
         String resultado =  "confirmado";
+        Double pontos = pontuacao;
         Intent returnIntent = new Intent();
+        returnIntent.putExtra("ponto", pontos);
         returnIntent.putExtra("resultado",resultado);
         setResult(RESULT_OK,returnIntent);
         finish();

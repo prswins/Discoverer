@@ -321,6 +321,7 @@ public class MainActivity extends AppCompatActivity{
                               //  Log.d("main activity", "onItemClick: "+listaDesafio.get(position).getId());
                                 i.putExtra("nomeDesafio", desafio.getTitulo());
                                 i.putExtra("desafio", desafio.getId());
+                                    i.putExtra("usuario", usuarioLocal);
                                 startActivity(i);
                                 }else{
                                     Toast.makeText(getApplicationContext(),"Para comecar tem que se autenticar", Toast.LENGTH_LONG).show();

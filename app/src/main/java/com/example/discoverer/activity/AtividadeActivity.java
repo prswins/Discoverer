@@ -89,15 +89,15 @@ import java.util.zip.Inflater;
 public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     public static final String ATIVIDADE_AGUARDANDO_INICIO = "aguardando";
-    public static final String ATIVIDADE_INICIADA = "iniciada";
+    public static final String ATIVIDADE_INICIADA = "iniciada" ;
     public static final String ATIVIDADE_PARADA = "parada";
     public static final String ATIVIDADE_FINALIZANDO = "finalizando";
 
     public String status_atual;
     private GoogleMap mMap;
-    private Button buttonIniciar, buttonFinalizar, buttonAr;
+    private Button buttonIniciar /*, buttonFinalizar, buttonAr*/;
     TextView pontuacao, tempo, status,cRegressiva;
-    LinearLayout layoutAR, layoutSuperior, layoutInferior;
+    LinearLayout layoutSuperior, layoutInferior;
     private PolylineOptions polyline = new PolylineOptions();
     final private Desafio desafioAtual = new Desafio();
     private LocationManager locationManager;
@@ -105,24 +105,25 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     private LatLng localizacaoAtual;
     //ArFragment arFragment;
    // private Boolean isModelPlaced = false;
-    private FirebaseAuth autenticacao;
-    private DatabaseReference firebaseRef;
+ //   private FirebaseAuth autenticacao;
+  //  private DatabaseReference firebaseRef;
     private Chronometer cronometro;
     private boolean atividadeRodando = false;
     private long milesegundosPausado;
     private long tempoTotal;
-    boolean flagInicio = false;
-    boolean flagFim = false;
+   // boolean flagInicio = false;
+   // boolean flagFim = false;
     boolean usuarioAutenticado;
     private Double pontuacaoTotal;
     private List<Ponto> listaPontosDescobertos = new ArrayList<>();
-    final Usuario usuarioLocal = new Usuario();
+    Usuario usuarioLocal = new Usuario();
    // private String objeto3DAtual;
    // private String msgObj;
     static final int ACTIVITY_2_REQUEST = 1;
     AlertDialog dialogQuit, dialogFim;
 
-    BaseArFragment realdadeAumentada;
+
+
     final CountDownTimer contador = new CountDownTimer(3000,1000) {
         @Override
         public void onTick(long millisUntilFinished) {
@@ -166,7 +167,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
 
 
         buttonIniciar = findViewById(R.id.buttonIniciar);
-        buttonFinalizar = findViewById(R.id.buttonFinalizar);
+        //buttonFinalizar = findViewById(R.id.buttonFinalizar);
 
         pontuacao = findViewById(R.id.textViewPontuacao);
         pontuacaoTotal = 0.0;
@@ -200,7 +201,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
 
             }
         });
-        buttonFinalizar.setOnClickListener(new View.OnClickListener() {
+       /* buttonFinalizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 status_atual = AtividadeActivity.ATIVIDADE_FINALIZANDO;
@@ -216,10 +217,11 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
 
 
             }
-        });
+        });*/
 
         recuperarDesafio();
         verificarAutenticacao();
+        recuperarUsuario();
         recuperarLocalizacaoUsuario();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -444,39 +446,38 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
             case AtividadeActivity.ATIVIDADE_AGUARDANDO_INICIO:
                         buttonIniciar.setVisibility(View.VISIBLE);
                         buttonIniciar.setText(R.string.botao_iniciar_iniciar);
-                        buttonFinalizar.setVisibility(View.GONE);
-                        status.setText(ATIVIDADE_AGUARDANDO_INICIO);
+                       // buttonFinalizar.setVisibility(View.GONE);
+                        status.setText(R.string.atividade_status_aguar_ini);
                 break;
 
             //atividade iniciada, botao iniciar ira pausar, habilitar finalizar
             case AtividadeActivity.ATIVIDADE_INICIADA:
                         buttonIniciar.setVisibility(View.VISIBLE);
                         buttonIniciar.setText(R.string.botao_iniciar_pausado);
-                        buttonFinalizar.setVisibility(View.GONE);
-                        status.setText(ATIVIDADE_INICIADA);
+                      //  buttonFinalizar.setVisibility(View.GONE);
+                        status.setText(R.string.atividade_status_inicio);
                 break;
             //atividade pausa, pode finalizar a atividade ou continua
             case AtividadeActivity.ATIVIDADE_PARADA:
                         buttonIniciar.setVisibility(View.VISIBLE);
                         buttonIniciar.setText(R.string.botao_iniciar_iniciar);
-                        buttonFinalizar.setVisibility(View.VISIBLE);
-                        buttonFinalizar.setText(R.string.botao_finalizar);
-                        status.setText(ATIVIDADE_PARADA);
+                       // buttonFinalizar.setVisibility(View.VISIBLE);
+                      //  buttonFinalizar.setText(R.string.botao_finalizar);
+                        status.setText(R.string.atividade_status_stop);
                 break;
 
 
             //finalizando atividade
             case AtividadeActivity.ATIVIDADE_FINALIZANDO:
                         buttonIniciar.setVisibility(View.GONE);
-                        buttonFinalizar.setVisibility(View.VISIBLE);
-                        buttonFinalizar.setText(R.string.botao_finalizar_desafio);
+                    //    buttonFinalizar.setVisibility(View.VISIBLE);
+                    //    buttonFinalizar.setText(R.string.botao_finalizar_desafio);
                         status.setText(ATIVIDADE_FINALIZANDO);
             default :
                 buttonIniciar.setVisibility(View.VISIBLE);
-                buttonIniciar.setVisibility(View.VISIBLE);
                 buttonIniciar.setText("default");
-                buttonFinalizar.setText("default");
-                status.setText("default");
+              //  buttonFinalizar.setText("default");
+                status.setText(R.string.atividade_status_final);
                 break;
         }
 
@@ -515,7 +516,11 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
 
     private void salvarDadosAtividade() {
         Atividade atitivadeAtual = new Atividade(usuarioLocal.getID(),desafioAtual.getId(),tempoTotal,pontuacaoTotal,listaPontosDescobertos.size());
+        usuarioLocal.setPontuacao(usuarioLocal.getPontuacao()+ pontuacaoTotal);
+        usuarioLocal.setNumeroDescobertas(usuarioLocal.getNumeroDescobertas()+listaPontosDescobertos.size());
+        usuarioLocal.setDistanciaPercorrida(usuarioLocal.getDistanciaPercorrida()+desafioAtual.getDistancia());
         atitivadeAtual.salvar();
+        usuarioLocal.salvarDesafio();
     }
 
 
@@ -532,7 +537,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
 
 
     //passando como parametro a localizacao do ponto que sera monitorado
-    private void iniciarMonitoramento(final LatLng localDestino, int visibilidade, String desafioID){
+    private void iniciarMonitoramento(final LatLng localDestino, String desafioID){
         Log.d("iniciarMonitoramento", "iniciarMonitoramento: ");
         DatabaseReference localDesafio = ConfiguracaoFirebase.getFirebaseDatabase()
                 .child("geofire").child(desafioID);
@@ -546,7 +551,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
         final Circle circulo = mMap.addCircle(
                 new CircleOptions()
                         .center( localDestino )
-                        .radius(visibilidade)//em metros
+                        .radius(2)//em metros
                         .fillColor(Color.argb(90,255, 153,0))
                         .strokeColor(Color.argb(190,255,152,0))
         );
@@ -574,9 +579,11 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                 if (idDesafio.equals(desafioAtual.getId())){
                     switch (tipo){
                         case "ini":
+                                buttonIniciar.setVisibility(View.VISIBLE);
+
                             AtividadeActivity.this.runOnUiThread(new Runnable() {
                                 public void run() {
-                                    Toast.makeText(getApplicationContext(),"ini", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(),AtividadeActivity.ATIVIDADE_INICIADA, Toast.LENGTH_LONG).show();
                                 }
                             });
 
@@ -591,7 +598,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                             AtividadeActivity.this.runOnUiThread(new Runnable() {
                                 public void run() {
                                     exibirMensagemFIM();
-                                    Toast.makeText(getApplicationContext(),"fim", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(),AtividadeActivity.ATIVIDADE_FINALIZANDO, Toast.LENGTH_LONG).show();
                                     //layoutAR.setVisibility(View.VISIBLE);
                                 }
                             });
@@ -600,28 +607,27 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
                             break;
 
                         case "des":
-                            Log.d("geofire", "ENTROU NA DESCOPBERTA");
-                            AtividadeActivity.this.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(getApplicationContext(),"des", Toast.LENGTH_LONG).show();
-                                }
-                            });
+
+
 
                             for(Ponto p:desafioAtual.getListaPontos()){
                                 if (identificacaoKey.equals(p.getNome())){
-                                    addPontoEncontrado(p);
 
-                                    //objeto3DAtual = tipo;
-                                    //ponto = p;
-                                    abrirAR(p.getNome(),p.getDescricao());
-                                    Log.d("identificarLocal", "Descoberta:"+p.getNome());
-                                    Log.d("identificarLocal", "descoberta:"+identificacaoKey);
-
-
+                                    if (!(verificarPontoEncontrado(p))){
+                                        addPontoEncontrado(p);
+                                        abrirAR(p.getNome(),p.getDescricao(), p.getPontuacao());
+                                        Log.d("identificarLocal", "case: des: dentro if"+p.getNome());
+                                        pausarCronometro();
+                                        /*AtividadeActivity.this.runOnUiThread(new Runnable() {
+                                            public void run() {
+                                                Toast.makeText(getApplicationContext(),p.getNome(), Toast.LENGTH_LONG).show();
+                                            }
+                                        });*/
+                                    }
                                 }
                             }
 
-                            pausarCronometro();
+
 
                             break;
                     }
@@ -656,14 +662,24 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     public void addPontoEncontrado(Ponto p){
-        Log.d("addPontoEncontrado", "listaPontosDescobertos.contains(p): "+listaPontosDescobertos.contains(p) +" "+p.getNome());
-        Log.d("addPontoEncontrado", "!listaPontosDescobertos.contains(p): "+!listaPontosDescobertos.contains(p) +" "+p.getNome());
-        if(!listaPontosDescobertos.contains(p)){
-            listaPontosDescobertos.add(p);
-            pontuacaoTotal = pontuacaoTotal + p.getPontuacao();
-            pontuacao.setText(String.valueOf(pontuacaoTotal));
+       // Log.d("addPontoEncontrado", "listaPontosDescobertos.contains(p): "+listaPontosDescobertos.contains(p) +" "+p.getNome());
+       // Log.d("addPontoEncontrado", "!listaPontosDescobertos.contains(p): "+!listaPontosDescobertos.contains(p) +" "+p.getNome());
+        listaPontosDescobertos.add(p);
+        //if(!listaPontosDescobertos.contains(p)){
+      //      listaPontosDescobertos.add(p);
+      //  }
+    }
+    public boolean verificarPontoEncontrado(Ponto p){
+        //Log.d("addPontoEncontrado", "!listaPontosDescobertos.contains(p): "+!listaPontosDescobertos.contains(p) +" "+p.getNome());
+        if(listaPontosDescobertos.contains(p)){
+            Log.d("vPontoEncontrado", "existe ?:"+listaPontosDescobertos.contains(p) +" "+p.getNome());
+            return true;
+        }else return false;
+    }
 
-        }
+    public void addPontoDesafio(double pontosObtidos){
+        pontuacaoTotal = pontuacaoTotal + pontosObtidos;
+        pontuacao.setText(String.valueOf(pontuacaoTotal));
     }
 
 
@@ -676,10 +692,10 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
             public void onLocationChanged(Location location) {
                 LatLng meuLocalAtual = new LatLng(location.getLatitude(), location.getLongitude());
                 localizacaoAtual = meuLocalAtual;
-               // iniciarMonitoramento(localizacaoAtual,5,desafioAtual.getId());
+                //iniciarMonitoramento(localizacaoAtual,5,desafioAtual.getId());
                 //centralizarMarcador(meuLocalAtual);
                 if (atividadeRodando == true){
-                    iniciarMonitoramento(localizacaoAtual,5,desafioAtual.getId());
+                    iniciarMonitoramento(localizacaoAtual,desafioAtual.getId());
                     centralizarMarcador(meuLocalAtual);
                 }
             }
@@ -825,7 +841,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
         dialogQuit.show();
     }
 
-    private void abrirAR(String nome, String descricao){
+    private void abrirAR(String nome, String descricao, Double pontuacao){
         //Log.d("abirirAR", "abrirAR: "+p.getNome());
         //Ponto p = new Ponto();
 //        p.setDescricao("descricao");
@@ -834,6 +850,7 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
         i.putExtra("titulo", nome);
 
         i.putExtra("desc", descricao);
+        i.putExtra("ponto", pontuacao);
         startActivityForResult(i, ACTIVITY_2_REQUEST);
     }
 
@@ -843,9 +860,14 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
         if (requestCode == ACTIVITY_2_REQUEST) {
             if(resultCode == RESULT_OK){
                 String resultado = data.getStringExtra("resultado");
+                Double pontosResultado = data.getDoubleExtra("ponto", 0);
                 //Coloque no EditText
                // seuEditText.setText(resultado);
+                if(resultado.equals("confirmado")){
+                    addPontoDesafio(pontosResultado);
+                }
                 Log.d("retornoactivity", "onActivityResult: "+ resultado);
+                Log.d("retornoactivity", "onActivityResult: Pontos: "+ resultado);
             }
         }
     }
@@ -862,8 +884,10 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
 
         view.findViewById(R.id.bt).setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-
+                salvarDadosAtividade();
                 dialogFim.dismiss();
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finishAffinity();
             }
         });
 
@@ -884,6 +908,26 @@ public class AtividadeActivity extends AppCompatActivity implements OnMapReadyCa
 
 
 
+    }
+
+    public void recuperarUsuario(){
+        if(getIntent() != null){
+            Intent intent = this.getIntent();
+            Bundle bundle = intent.getExtras();
+            //Log.d("getIntent", "recuperarUsuario: getIntent: " + getIntent().getBundleExtra("usuario"));
+            if(bundle.getSerializable("usuario") != null){
+                usuarioLocal = (Usuario) bundle.getSerializable("usuario");
+
+                Log.d("usuarioRecuperado", "recuperar descobertas: "+usuarioLocal.getNumeroDescobertas());
+
+               // nome.setText(usuarioLocal.getNome());
+              //  totalKm.setText( String.valueOf(usuarioLocal.getDistanciaPercorrida())+" Km");
+               // pontuacao.setText(String.valueOf( usuarioLocal.getPontuacao()));
+               // totalDescobertas.setText(String.valueOf(usuarioLocal.getNumeroDescobertas()));
+            }else{
+
+            }
+        }
     }
 
 }

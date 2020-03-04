@@ -97,4 +97,8 @@
     <string name="clicar_no_plano">You must click on the object</string>
     <string name="desafio_concluido" >Okay, you’re a winner and you’ve finished the challenge. Congratulations!</string>
     <string name="desafio_finalizar" >Click here to save your activity</string>
+    <string name="atividade_status_aguar_ini">Wainting</string>
+    <string name="atividade_status_inicio">" Started"</string>
+    <string name="atividade_status_stop">Pause</string>
+    <string name="atividade_status_final">Finishing</string>
 </resources>

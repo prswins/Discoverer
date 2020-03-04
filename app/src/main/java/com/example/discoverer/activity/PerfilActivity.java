@@ -47,15 +47,11 @@ public class PerfilActivity extends AppCompatActivity {
                 pontuacao.setText(String.valueOf( usuarioLocal.getPontuacao()));
                 totalDescobertas.setText(String.valueOf(usuarioLocal.getNumeroDescobertas()));
             }else{
-                recarregarUsuario();
+
             }
         }
     }
 
-    private void recarregarUsuario() {
-
-
-    }
 
     public void inicializarComponentes(){
 

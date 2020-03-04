@@ -5,6 +5,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Usuario implements Serializable {
      private  String ID;
@@ -48,8 +50,17 @@ public class Usuario implements Serializable {
     public void salvar(){
         DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
         DatabaseReference usuarios = firebaseRef.child("usuarios").child(getID());
-
         usuarios.setValue(this);
+    }
+    public void salvarDesafio(){
+        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        //DatabaseReference usuarios = firebaseRef.child("usuarios").child(getID());
+        DatabaseReference usuarios = firebaseRef.child("usuarios");
+
+
+        Map<String, Object> desafiosUpdates = new HashMap<>();
+        desafiosUpdates.put(getID(),Usuario.this);
+        usuarios.updateChildren(desafiosUpdates);
     }
 
     public void setID(String ID) {
@@ -99,6 +110,15 @@ public class Usuario implements Serializable {
         this.genero = genero;
     }
 
-
-
+    public Usuario(String ID, String email, String senha, String nome, String endereco, String genero, Double distanciaPercorrida, Double pontuacao, Integer numeroDescobertas) {
+        this.ID = ID;
+        this.email = email;
+        Senha = senha;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.genero = genero;
+        this.distanciaPercorrida = distanciaPercorrida;
+        this.pontuacao = pontuacao;
+        this.numeroDescobertas = numeroDescobertas;
+    }
 }

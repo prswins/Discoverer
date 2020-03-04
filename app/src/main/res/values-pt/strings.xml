@@ -132,6 +132,10 @@
     <string name="clicar_no_plano">Deve tocar no objeto</string>
     <string name="desafio_concluido" >Muito bem, você é um vencedor e  terminou o desafio. Parabens!</string>
     <string name="desafio_finalizar" >Clique aqui para salvar sua atividade</string>
+    <string name="atividade_status_aguar_ini">Aguardando</string>
+    <string name="atividade_status_inicio">Iniciado</string>
+    <string name="atividade_status_stop">Parada</string>
+    <string name="atividade_status_final">Finalizando</string>
 
 
 </resources>

@@ -89,7 +89,7 @@
 
     <string name="main_unidade_medida_pontuacao_singular">Ponto</string>
     <string name="main_unidade_medida_pontuacao_plural">Pontos</string>
-    <string name="title_activity_ranking">RankingActivity</string>
+    <string name="title_activity_ranking">Ranking</string>
     <string name="ranking_indiponivel">Ranking Indisponível no Momento</string>
     <string name="tela_ranking_descricao_ranking">O ranking é uma lista onde estão classificados nosso melhores usuarios.\n Sendo utilizado como critério de avaliação os pontos acumulados de todos os desafios completados.\nVamos la ...\n Não fique atras nessa corrida !!! </string>
     <string name="title_activity_atividade">AtividadeActivity</string>

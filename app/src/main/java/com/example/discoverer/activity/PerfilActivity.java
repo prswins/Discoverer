@@ -12,6 +12,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.discoverer.R;
 import com.example.discoverer.model.Usuario;
 
+import java.text.DecimalFormat;
+
 public class PerfilActivity extends AppCompatActivity {
     Usuario usuarioLocal;
     TextView nome, totalKm, pontuacao, totalDescobertas;
@@ -43,7 +45,10 @@ public class PerfilActivity extends AppCompatActivity {
 
 
                 nome.setText(usuarioLocal.getNome());
-                totalKm.setText( String.valueOf(usuarioLocal.getDistanciaPercorrida())+" Km");
+
+               DecimalFormat df = new DecimalFormat("0.000");
+
+                totalKm.setText( String.valueOf(df.format(usuarioLocal.getDistanciaPercorrida()/1000))+" Km");
                 pontuacao.setText(String.valueOf( usuarioLocal.getPontuacao()));
                 totalDescobertas.setText(String.valueOf(usuarioLocal.getNumeroDescobertas()));
             }else{

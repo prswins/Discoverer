@@ -102,7 +102,8 @@
                 android:foregroundGravity="center"
                 android:isScrollContainer="false"
                 android:persistentDrawingCache="scrolling"
-                app:layout_constraintTop_toBottomOf="@+id/textViewDescSessao1">
+                app:layout_constraintTop_toBottomOf="@+id/textViewDescSessao1"
+                app:reverseLayout="true">
 
             </androidx.recyclerview.widget.RecyclerView>
 

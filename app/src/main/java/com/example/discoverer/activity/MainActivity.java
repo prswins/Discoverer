@@ -49,6 +49,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -133,9 +134,10 @@ public class MainActivity extends AppCompatActivity{
     private void recuperarDesafios(){
 
         DatabaseReference desafios = FirebaseDatabase.getInstance().getReference().child("desafios");
-        //Query desafiosPesquisa = desafios.child("status").equalTo("ATIVADO");
-
-        desafios.addValueEventListener(new ValueEventListener() {
+       // Query desafiosPesquisa = desafios.child("status").equalTo("ATIVADO");
+        Query desafiosPesquisa = desafios.orderByValue();
+        desafiosPesquisa.addValueEventListener(new ValueEventListener() {
+        //desafios.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount() > 0 ){
@@ -299,6 +301,7 @@ public class MainActivity extends AppCompatActivity{
         recyclerDesafios.setLayoutManager(layoutManager);
         recyclerDesafios.setHasFixedSize(true);
         recyclerDesafios.setAdapter(desafioAdapter);
+
         recyclerDesafios.addOnItemTouchListener(
                 new RecyclerItemClickListener(
                         getApplicationContext(),

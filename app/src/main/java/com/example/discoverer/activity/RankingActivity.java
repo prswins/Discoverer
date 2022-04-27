@@ -36,7 +36,6 @@ public class RankingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ranking);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Ranking");
         inicializarComponentes();
         recuperarUsuarios();
     }
@@ -81,9 +80,18 @@ public class RankingActivity extends AppCompatActivity {
                         // Usuario usuarioRecuperado =(Usuario) ds.getValue(Usuario.class);
 
                         String nome,nDesc, distP, pontos;
-                        nome = ds.child("nome").getValue().toString();
+                        double distPD;
+                        if ((ds.child("nome").getValue()) == null){
+                            nome = ds.child("email").getValue().toString();
+                        }else{
+                            nome = ds.child("nome").getValue().toString();
+                        }
+
                         nDesc = String.valueOf(ds.child("numeroDescobertas").getValue(Integer.class));
-                        distP = String.valueOf(ds.child("distanciaPercorrida").getValue(Double.class));
+
+                        distPD = ds.child("distanciaPercorrida").getValue(Double.class);
+                       // distPD = distPD/1000;
+                        distP = String.valueOf(distPD);
                         pontos = String.valueOf(ds.child("pontuacao").getValue(Double.class));
                         usuario.setNome(nome);
                         usuario.setNumeroDescobertas(Integer.parseInt(nDesc));
